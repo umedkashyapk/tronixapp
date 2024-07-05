@@ -1,5 +1,7 @@
 // import React from 'react';
 import React from 'react';
+import  { useState } from 'react';
+
 import '../assets/wallet.css'; // Assuming you want to style the wallet page separately
 import tronIcon from '../assets/tron-icon.png'; // Replace with the actual path to your icon
 import BalanceCard from './BalanceCard'; // Import the BalanceCard component
@@ -8,6 +10,19 @@ import BalanceCard from './BalanceCard'; // Import the BalanceCard component
 
 
 const Wallet = () => {
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+
+  const openModal = (type) => {
+    setShowModal(true);
+    setModalType(type);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setModalType('');
+  };
   const transactions = [
     {
       date: '2024.06.27 11:38',
@@ -49,11 +64,11 @@ const Wallet = () => {
         <tbody>
           {transactions.map((transaction, index) => (
             <tr key={index}>
-              <td>{transaction.date}</td>
-              <td>{transaction.coin}</td>
-              <td>{transaction.sum.toLocaleString()}</td>
-              <td>{transaction.type}</td>
-              <td>{transaction.status ? '✔️' : '❌'}</td>
+              <td className='center'>{transaction.date}</td>
+              <td className='center'>{transaction.coin}</td>
+              <td className='center'>{transaction.sum.toLocaleString()}</td>
+              <td className='center'>{transaction.type}</td>
+              <td className='center'>{transaction.status ? '✔️' : '❌'}</td>
             </tr>
           ))}
         </tbody>

@@ -1,26 +1,38 @@
 import React, { useState } from 'react';
 import '../assets/Dashboard.css';
+import ReusableModal from './ReusableModal';
+import BalanceCard from './BalanceCard'; 
+
 import tronIcon from '../assets/tron-icon.png';
 import fanImage from '../assets/fan-image.png';
 
 
 const Dashboard = () => {
-  const [showModal, setShowModal] = useState(false);
-
-  const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
-
+    const [showModal, setShowModal] = useState(false);
+    const [modalType, setModalType] = useState('');
+  
+    const openModal = (type) => {
+      setShowModal(true);
+      setModalType(type);
+    };
+  
+    const closeModal = () => {
+      setShowModal(false);
+      setModalType('');
+    };
+    const handleSendClick = () => {
+        // Handle send button click
+        console.log('Send button clicked');
+      };
   return (
     <div className="dashboard">
       <div className="balances">
-        <div className="balance-card">
-          <img src={tronIcon} alt="Tron" className="icon" />
-          <div>
-            <p className="balance-title">TRON Balance</p>
-            <p className="balance-amount">12 Tron</p>
-          </div>
-          <button className="send-button" onClick={openModal}>Send</button>
-        </div>
+      <BalanceCard
+          icon={tronIcon}
+          title="TRON Balance"
+          amount="12 Tron"
+          onSendClick={handleSendClick}
+        />
       </div>
 
       <div className="fan">
@@ -30,9 +42,10 @@ const Dashboard = () => {
       </div>
 
       <div className="actions">
-        <button className="action-button">Claim</button>
-        <button className="action-button">Boost</button>
+        <button className="action-button1" onClick={() => openModal('claim')}>Claim</button>
+        <button className="action-button1" onClick={() => openModal('boost')}>Boost</button>
       </div>
+      <ReusableModal show={showModal} type={modalType} onClose={closeModal} />
 
      
     </div>

@@ -7,7 +7,7 @@ import tronIcon from '../assets/tron-icon.png'; // Replace with the actual path 
 
 
 
-const Wallet = () => {
+const Friends = () => {
   const transactions = [
     {
       date: '2024.06.27 11:38',
@@ -81,4 +81,4 @@ const Wallet = () => {
 };
 
 
-export default Wallet;
+export default Friends;
