@@ -5,6 +5,7 @@ import Wallet from "./components/Wallet";
 import Footer from "./components/Footer";
 import Mission from "./components/Mission";
 import Friends from "./components/Friends";
+import Task from "./components/Task";
 import { UserProvider, UserContext } from "./context/UserContext";
 import OrderDetails from "./components/OrderDetails";
 
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/mission" element={<Mission />} />
+          <Route path="/task" element={<Task />} />
         </Routes>
         <Footer />
       </Router>
@@ -28,7 +30,7 @@ const App = () => {
 export default App;
 const DashboardWrapper: React.FC = () => {
   const { user } = useContext(UserContext);
-
+// console.log('data',user);
   if (!user) {
     return <div>Loading...</div>;
   }

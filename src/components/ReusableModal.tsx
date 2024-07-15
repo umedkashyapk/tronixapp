@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/Dashboard.css"; // Ensure you have the relevant CSS
-
+import { Claim } from "../api/claim";
 interface ReusableModalProps {
   show: boolean;
   type: string;
-  onClose: () => void;
   userId: number;
-  telegramID: number;
+  onClose: () => void;
+  
 }
 
 const ReusableModal: React.FC<ReusableModalProps> = ({
   show,
   type,
-  onClose,
   userId,
-  telegramID,
+  onClose,
+
 }) => {
   const [inputValue, setInputValue] = useState(100); // Default value is 100 TRX
   const navigate = useNavigate();
@@ -30,9 +30,22 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
   const handleAddClick = (e: React.FormEvent) => {
     e.preventDefault();
     navigate("/order-details", {
-      state: { userId, telegramID, amount: inputValue },
+      state: { userId,  amount: inputValue },
     });
   };
+  
+  const handleClickClaim = async () => {
+    try {
+      const success = await Claim(
+        userId,
+       );
+    } catch (error) {
+      console.error("Failed to confirm payment:", error);
+    }
+  };
+  
+  
+
 
   if (!show) {
     return null;
@@ -59,7 +72,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
               />
               <p className="boost3">Minimum amount 100 TRX</p>
               <p className="boost3">Maximum amount 1,000,000 TRX</p>
-              <div className="modal-buttons">
+              
                 <button type="submit">Add</button>
                 <button
                   type="button"
@@ -68,8 +81,39 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
                 >
                   Back
                 </button>
-              </div>
+             
             </form>
+          </>
+        )}
+        {type === 'claim' && (
+          < >
+         
+          
+            <h2 className='claim' >Claim TRX to Wallet Balance</h2>
+            <p className='claim1'>Once claimed, the mined TRX will be deducted from your mining balance and will be credited to your wallet balance.</p>
+        <h3 className='claim2'>Minimum claim amount is 1 TRX.</h3>
+        
+           <button className='button-w' onClick={handleClickClaim} type="submit">Claim</button><br/>
+           <button className='button-w' onClick={onClose}>Not yet</button>
+          
+           </>
+         
+        )}
+        {type === 'send' && (
+          <>
+            <h2 className='color' >Enter your personal TRX address</h2>
+            <p className='color1'>This amount will be sent to the TRC20 compatible wallet address</p>
+        <p className='color2'>Minimum send amount is 20 TRX</p>
+        <form style={{ marginTop:'-16'}}>
+          <input className="inputcolor" style={{ marginTop:'-10'}} type="text" placeholder="Your TRX (TRC20) Address" />
+          <input className="inputcolor" style={{ }} type="text" placeholder="Amount" />
+          
+          <p className='color5'>Network fee: 2.5 TRX</p>
+           <p className='claim3'>Receive amount: 0 TRX</p>
+           <button style={{marginTop:''}} type="submit">Send</button><br/>
+           <button  style={{marginTop:'',color:'#000' ,backgroundColor:"rgb(234 229 229)"}} onClick={onClose}>Not yet</button>
+         </form>
+            
           </>
         )}
       </div>

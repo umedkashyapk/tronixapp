@@ -2,15 +2,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from 'react-router-dom';
-import {
-  faGem,
-  faWallet,
-  faUsers,
-  faRocket,
-} from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faGem, faWallet, faUsers, faRocket } from '@fortawesome/free-solid-svg-icons';
-// import { Link } from "react-router-dom";
+import { faGem, faWallet, faUsers, faRocket, faClipboard } from '@fortawesome/free-solid-svg-icons';
 import "../assets/Dashboard.css";
 
 // import "./Footer.css";
@@ -33,6 +25,10 @@ const Footer = () => {
       <Link to="/mission" className="footer-nav">
         <FontAwesomeIcon icon={faRocket} className="footer-icon" />
         <span className="color">Missions</span>
+      </Link>
+      <Link to="/task" className="footer-nav">
+        <FontAwesomeIcon icon={faClipboard} className="footer-icon" />
+        <span className="color">Tesk</span>
       </Link>
     </footer>
   );

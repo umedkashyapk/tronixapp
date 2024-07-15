@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { checkOrInsertUser } from "../api/user";
 
 interface TelegramUser {
-  id: number;
+  telegram_id: number;
   first_name: string;
   last_name?: string;
   username?: string;
@@ -32,7 +32,7 @@ export const UserProvider: React.FC = ({ children }) => {
 
       if (!userInfo) {
         userInfo = {
-          id: 12345,
+          telegram_id: '43431',
           first_name: "vicky",
           last_name: "kashyap",
           username: "vicky_kashyap",

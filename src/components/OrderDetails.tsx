@@ -14,9 +14,8 @@ interface OrderDetailsProps {
 
 const OrderDetails: React.FC = () => {
   const location = useLocation();
-  const { userId, telegramID, amount } = location.state || {
+  const { userId, amount } = location.state || {
     userId: null,
-    telegramID: null,
     amount: 100,
   };
   const [data, setData] = useState<any>(null);
@@ -25,9 +24,10 @@ const OrderDetails: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('user_id',userId);
     const getData = async () => {
       try {
-        const result = await fetchMiningDetails(userId, telegramID, amount);
+        const result = await fetchMiningDetails(userId, amount);
         setData(result);
         setLoading(false);
       } catch (error) {
@@ -36,13 +36,12 @@ const OrderDetails: React.FC = () => {
       }
     };
     getData();
-  }, [userId, telegramID, amount]);
+  }, [userId, amount]);
 
   const handleConfirmClick = async () => {
     try {
       const success = await confirmPayment(
         userId,
-        telegramID,
         data.paymentAddress,
         amount
       );

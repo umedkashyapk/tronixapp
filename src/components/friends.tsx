@@ -3,6 +3,7 @@
 import '../assets/wallet.css'; // Assuming you want to style the wallet page separately
 import tronIcon from '../assets/tron-icon.png'; // Replace with the actual path to your icon
 // import BalanceCard from './BalanceCard'; // Import the BalanceCard component
+import { transactionsHistory } from "../api/transactions";
 
 
 
@@ -11,9 +12,9 @@ const Friends = () => {
   const transactions = [
     {
       date: '2024.06.27 11:38',
-      coin: 'shiba',
+      coin: 'TRX',
       sum: '10,000.0',
-      type: 'Bonus',
+      type: 'Referrer',
       status: 'Completed',
     },
   ];

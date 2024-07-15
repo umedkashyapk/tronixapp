@@ -20,11 +20,15 @@ const Dashboard = ({ user }: DashboardProps) => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [claimableAmt, setClaimableAmt] = useState<number>(
-    parseFloat(user.claimable_amt)
+   
+    parseFloat(user.claimable_amt),
+    
+    
   );
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('dash user' ,user);
     // Update the claimable amount at a fixed rate
     const mining_rate = user.is_invested === 2 ? 100 : 200;
     const incrementAmount = 0.000001; // Increment value per interval
@@ -57,7 +61,7 @@ const Dashboard = ({ user }: DashboardProps) => {
         <BalanceCard
           icon={tronIcon}
           title="TRON Balance"
-          amount="12 Tron"
+          amount={user.wallet}
           onClick={handleSendClick}
         />
       </div>
@@ -76,7 +80,7 @@ const Dashboard = ({ user }: DashboardProps) => {
           Boost
         </button>
       </div>
-      <ReusableModal show={showModal} type={modalType} onClose={closeModal} />
+      <ReusableModal  show={showModal} userId={user.id}  type={modalType} onClose={closeModal} />
     </div>
   );
 };
