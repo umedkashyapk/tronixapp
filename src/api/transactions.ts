@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8000/api'; // Replace with your actual API base URL
 
-export const transactionsHistory = async (userId: number, type: 1) => {
+export const transactionsHistory = async (userId: number, type: number) => {
   try {
     
     const response = await axios.post(`${API_BASE_URL}/transactions`, {

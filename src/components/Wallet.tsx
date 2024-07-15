@@ -26,8 +26,8 @@ const Wallet = () => {
   const transactions = [
     {
       date: '2024.06.27 11:38',
-      coin: 'shiba',
-      sum: '10,000.0',
+      coin: 'trx',
+      sum: '1',
       type: 'Bonus',
       status: 'Completed',
     },
@@ -42,13 +42,13 @@ const Wallet = () => {
       <BalanceCard
           icon={tronIcon}
           title="TRON Balance"
-          amount="12 Tron"
+          amount=""
           onSendClick={handleSendClick}
         />
       </div><br></br>
-      <div className="boost-button">
+      {/* <div className="boost-button">
         <button>Boost</button>
-      </div>
+      </div> */}
       <h2>Transaction History</h2>
       <table>
         <thead>

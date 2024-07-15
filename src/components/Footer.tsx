@@ -26,10 +26,7 @@ const Footer = () => {
         <FontAwesomeIcon icon={faRocket} className="footer-icon" />
         <span className="color">Missions</span>
       </Link>
-      <Link to="/task" className="footer-nav">
-        <FontAwesomeIcon icon={faClipboard} className="footer-icon" />
-        <span className="color">Tesk</span>
-      </Link>
+      
     </footer>
   );
 };
