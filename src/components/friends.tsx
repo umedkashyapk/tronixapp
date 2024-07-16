@@ -1,31 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, {useContext, useState, useEffect } from 'react';
 import '../assets/wallet.css'; // Assuming you want to style the wallet page separately
 import { transactionsHistory } from "../api/transactions";
+import { UserContext } from "../context/UserContext";
 
 const Friends = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const userId = 1; // Replace with the actual user ID
-  const type = 2; // Replace with the actual type
+  const userContext = useContext(UserContext);
+  
 
   useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const response = await transactionsHistory(userId, type);
-        setTransactions(response); // Adjust this based on the structure of your API response
-        console.log('transactionsHistory', response);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (userContext && userContext.user && userContext.user.id) {
+      fetchTransactions(userContext.user.id);
+    }
+  }, [userContext]);
 
-    fetchTransactions();
-  }, []);
+  const fetchTransactions = async (userId) => {
+    try {
+      const response = await transactionsHistory(userId, 2); // Adjust the type as needed
+      setTransactions(response); // Assuming the transactions are in response.data
+      setLoading(false);
+      console.log('transactionsHistory', response.data);
+    } catch (error) {
+      console.error("Error fetching transactionsHistory:", error);
+      setError(error);
+      setLoading(false);
+    }
+  };
  
-  const inviteLink = "https://t.me/tronixapp_bot?start=5327419313";
+  const inviteLink = userContext?.user?.telegram_id 
+    ? `https://t.me/tronixapp_bot?start=${userContext.user.telegram_id}` 
+    : "https://t.me/tronixapp_bot";
+
   const handleCopyClick = () => {
     navigator.clipboard.writeText(inviteLink);
   };

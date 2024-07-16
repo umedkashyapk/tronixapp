@@ -1,73 +1,45 @@
 import "../assets/wallet.css";
 import tronIcon from "../assets/tron-icon.png";
-// import tronIcon from "../assets/tron-icon.png";
+import React, { useContext, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BalanceCard from './BalanceCard'; // Import the BalanceCard component
 import { Link } from 'react-router-dom';
-import {
+import {faHandPaper, faComments,faBullhorn,faBolt,faUsers,faCheck,faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "../context/UserContext";
+import { task } from "../api/task";
+
+
+const iconMap = {
   faHandPaper,
   faComments,
   faBullhorn,
-  faBolt,
   faUsers,
-  faCheck,
-  faArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
-
-import shibaIcon from "../assets/shiba-icon.png"; // Replace with the actual path to your icon
+  faBolt
+};
 
 const Mission = () => {
-  const transactions = [
-    {
-      date: "2024.06.27 11:38",
-      coin: "shiba",
-      sum: "10,000.0",
-      type: "Bonus",
-      status: "Completed",
-    },
-  ];
-  const inviteLink = "https://t.me/tronixapp_bot?start=5327419313";
-  const handleCopyClick = () => {
-    navigator.clipboard.writeText(inviteLink);
-  };
+  const userContext = useContext(UserContext); // Use the context
+  const [missions, setMissions] = useState([]);
 
-  const missions = [
-    {
-      id: 1,
-      title: "Welcome bonus",
-      reward: "1 TRX",
-      icon: faHandPaper,
-      completed: true,
-    },
-    {
-      id: 2,
-      title: "Join Chat Group / Page",
-      reward: "1 TRX",
-      icon: faComments,
-      completed: false,
-    },
-    {
-      id: 3,
-      title: "Rent Your First Miner Booster",
-      reward: "5 TRX",
-      icon: faBullhorn,
-      completed: false,
-    },
-    {
-      id: 4,
-      title: "Invite your first friend",
-      reward: "10 TRX",
-      icon: faUsers,
-      completed: false,
-    },
-    {
-      id: 5,
-      title: "Follow Tronix Twitter",
-      reward: "1 TRX",
-      icon: faBolt,
-      completed: false,
-    },
-  ];
+  useEffect(() => {
+    if (userContext && userContext.user && userContext.user.telegram_id) {
+      fetchMissions(userContext.user.telegram_id);
+    }
+  }, [userContext]);
+
+  const fetchMissions = async (telegramId) => {
+    try {
+      const response = await task(telegramId, 1); // Adjust the type as needed
+      console.log("API Response:", response);
+      setMissions(response.task_deatils || []); // Assuming response contains a tasks array
+    } catch (error) {
+      console.error("Error fetching task_deatils:", error);
+    }
+  };
+  
+
+ 
   const handleSendClick = () => {
     // Handle send button click
     console.log('Send button clicked');
@@ -93,23 +65,17 @@ const Mission = () => {
         </thead>
         </div>
       <div className="balance">
-        {missions.map((mission) => (
-          <div
-            key={mission.id}
-            className={`userbutton ${mission.completed ? "completed" : ""}`}
-          >
-            <FontAwesomeIcon icon={mission.icon} className="mission-icon" />
+      {missions.map((mission) => (
+          <div key={mission.id} className={`userbutton`}>
+            <FontAwesomeIcon icon={iconMap[mission.images]} className="mission-icon" />
             <div className="mission-details">
-              <p className="mission-title">{mission.title}</p>
+              <p className="mission-title">{mission.description}</p>
               <p className="mission-reward">
-                <img src={tronIcon} alt="Shiba" className="shiba-icon" />{" "}
-                {mission.reward}
+                <img src={tronIcon} alt="Shiba" className="shiba-icon" /> {mission.amount}
               </p>
             </div>
             <button className="action-button">
-              <FontAwesomeIcon
-                icon={mission.completed ? faCheck : faArrowRight}
-              />
+              <FontAwesomeIcon icon={faArrowRight}/>
             </button>
           </div>
         ))}
