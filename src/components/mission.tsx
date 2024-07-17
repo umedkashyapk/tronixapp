@@ -51,7 +51,7 @@ const Mission = () => {
       <BalanceCard
           icon={tronIcon}
           title="TRON Balance"
-          amount="12 Tron"
+          amount={userContext.user.wallet}
           onSendClick={handleSendClick}
         />
       </div><br></br>

@@ -5,7 +5,7 @@ const API_BASE_URL = 'http://localhost:8000/api'; // Replace with your actual AP
 export const task = async (telegramId: number, type: number) => {
   try {
     
-    const response = await axios.post(`${API_BASE_URL}/tesk`, {
+    const response = await axios.post(`${API_BASE_URL}/task`, {
         telegram_id: telegramId,
       type: type
     });

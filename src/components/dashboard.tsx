@@ -31,7 +31,8 @@ const Dashboard = ({ user }: DashboardProps) => {
     console.log('dash user' ,user);
     // Update the claimable amount at a fixed rate
     const mining_rate = user.is_invested === 2 ? 100 : 200;
-    const incrementAmount = 0.000001; // Increment value per interval
+   
+        const incrementAmount = 0.000001; // Increment value per interval
     const interval = setInterval(() => {
       setClaimableAmt((prevAmt) => prevAmt + incrementAmount);
     }, mining_rate); // Update every 100ms

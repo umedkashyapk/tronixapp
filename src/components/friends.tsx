@@ -45,7 +45,7 @@ const Friends = () => {
       <div className="balance">
         <div className="userref">
           <p className='font'>
-            Invite friends and receive 250 SHIBA for every friend registration.
+            Invite friends and receive 10 Trx for every friend registration.
             You can also receive bonuses for completed transactions by your friends.
           </p>
         </div>

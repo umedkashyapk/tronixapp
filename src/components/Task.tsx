@@ -7,10 +7,13 @@ import BalanceCard from './BalanceCard'; // Import the BalanceCard component
 import { faUsers, faCheck, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
 import { task } from "../api/task";
+import {TaskClaim} from "../api/taskclaim";
 
 const Task = () => {
   const userContext = useContext(UserContext); // Use the context
   const [missions, setMissions] = useState([]);
+  const [userTotalDirect, setUserTotalDirect] = useState(0);
+  // const [claimedTasks, setClaimedTasks] = useState(new Set());
 
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.telegram_id) {
@@ -22,16 +25,20 @@ const Task = () => {
     try {
       const response = await task(telegramId, 2); // Adjust the type as needed
       console.log("API Response:", response);
-      setMissions(response.task_deatils || []); // Assuming response contains a tasks array
+      setMissions(response.task_deatils || []);
+      setUserTotalDirect(response.user_Total_Direct || 0);
     } catch (error) {
       console.error("Error fetching task_deatils:", error);
     }
   };
-
-  const handleCopyClick = () => {
-    if (userContext && userContext.user) {
-      const inviteLink = `https://t.me/tronixapp_bot?start=${userContext.user.telegram_id}`;
-      navigator.clipboard.writeText(inviteLink);
+  const handleClaim = async (userId, taskId) => {
+    try {
+      const success = await TaskClaim(userId, taskId);
+      if (success) {
+        // setClaimedTasks((prevClaimedTasks) => new Set(prevClaimedTasks).add(taskId));
+      }
+    } catch (error) {
+      console.error("Failed to TaskClaim:", error);
     }
   };
 
@@ -45,7 +52,7 @@ const Task = () => {
         <BalanceCard
           icon={tronIcon}
           title="TRON Balance"
-          amount="12 Tron"
+          amount={userContext.user.wallet}
           onSendClick={handleSendClick}
         />
       </div>
@@ -68,9 +75,24 @@ const Task = () => {
                 <img src={tronIcon} alt="Shiba" className="shiba-icon" /> {mission.amount}
               </p>
             </div>
-            <button className="action-button">
-              <FontAwesomeIcon icon={faArrowRight}/>
-            </button>
+          
+            {mission.direct <= userTotalDirect ? (
+      mission.user_tasks && mission.user_tasks.task_id === mission.id ? (
+        <button className="action-button claimed">
+          <FontAwesomeIcon icon={faCheck} />
+        </button>
+      ) : (
+        <button className="claim-button claim" 
+        onClick={() => handleClaim(userContext.user.id, mission.id)}>
+          Claim
+        </button>
+      )
+    ) : (
+      <button className="claim-button claim" disabled>
+        Claim
+      </button>
+    )}
+           
           </div>
         ))}
       </div>

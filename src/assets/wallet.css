@@ -11,7 +11,24 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
+.claim-button {
+  background-color: #007bff; /* Primary color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
+.claim-button.claim {
+  background-color: #28a745; /* Green color for claim button */
+}
+
+.claim-button.claim:disabled {
+  background-color: #6c757d; /* Gray color for disabled button */
+  cursor: not-allowed;
+  opacity: 0.65;
+}
 .modal-contents input {
   margin-top: -29px;
   margin: 8px 0;
