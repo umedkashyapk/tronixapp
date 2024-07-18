@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import OrderDetails from "./OrderDetails";
 import { fetchMiningDetails } from "../api/mining";
+import Loader from '../components/loader';
 
 const OrderDetailsPage: React.FC = () => {
   const location = useLocation();
@@ -36,7 +37,7 @@ const OrderDetailsPage: React.FC = () => {
       onClose={() => window.history.back()}
     />
   ) : (
-    <div>Loading...</div>
+    <div><Loader /></div>
   );
 };
 

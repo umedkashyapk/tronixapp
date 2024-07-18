@@ -6,6 +6,15 @@
       transform: rotate(360deg);
     }
   }
+  .flash-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #19e436;
+    background-color: #5b5c5b;
+    color: #19e436;
+    text-align: center;
+    border-radius: 5px;
+  }
   
   /* Apply the spin animation to the image */
   .spin-animation {
@@ -215,41 +224,7 @@ body {
     margin: 20px 0;
   }
   
-  .footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #000;
-    color: #d03291; /* Pink color for icons and text */
-    text-align: center;
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-around;
-    z-index: 1000;
-    border-top: 1px solid #cac6c6;
-    border-radius: 6%;
-    
-  }
-  .footer-icon {
-    font-size: 20px;
-    margin-bottom: 5px;
-  }
   
-  .footer-nav {
- 
-
-    background: none;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none; /* Remove underline from links */
-  }
-
-
   /* TransactionTable.css */
 
 .table-container {
@@ -306,7 +281,7 @@ body {
   }
   @media (min-width: 768px) {
     .footer {
-      width: 30%;
+      width: 35%;
       
   }
   .wallet-page {

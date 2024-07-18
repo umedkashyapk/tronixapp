@@ -7,6 +7,15 @@
     max-width: 400px;
     text-align: center;
   }
+  .flash-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #19e436;
+    background-color: #5b5c5b;
+    color: #19e436;
+    text-align: center;
+    border-radius: 5px;
+  }
   
   .order-details-container {
     background-color: #2a2a2a;

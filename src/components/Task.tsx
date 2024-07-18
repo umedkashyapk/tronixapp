@@ -6,14 +6,17 @@ import { Link } from 'react-router-dom';
 import BalanceCard from './BalanceCard'; // Import the BalanceCard component
 import { faUsers, faCheck, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
+import Loader from '../components/loader';
 import { task } from "../api/task";
 import {TaskClaim} from "../api/taskclaim";
 
 const Task = () => {
+  const [loading, setLoading] = useState(true);
   const userContext = useContext(UserContext); // Use the context
   const [missions, setMissions] = useState([]);
   const [userTotalDirect, setUserTotalDirect] = useState(0);
   // const [claimedTasks, setClaimedTasks] = useState(new Set());
+ 
 
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.telegram_id) {
@@ -27,8 +30,10 @@ const Task = () => {
       console.log("API Response:", response);
       setMissions(response.task_deatils || []);
       setUserTotalDirect(response.user_Total_Direct || 0);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching task_deatils:", error);
+      setLoading(false);
     }
   };
   const handleClaim = async (userId, taskId) => {
@@ -48,6 +53,10 @@ const Task = () => {
 
   return (
     <div className="wallet-page">
+      {loading ? (
+        <Loader /> // Show loader when loading
+      ) : (
+        <>
       <div className="balance">
         <BalanceCard
           icon={tronIcon}
@@ -96,6 +105,8 @@ const Task = () => {
           </div>
         ))}
       </div>
+      </>
+    )}
     </div>
   );
 };

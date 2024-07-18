@@ -10,6 +10,7 @@ export const Claim = async (userId: number) => {
       user_id: userId
     });
     
+    
     console.log('Claim Amount details',response);
     return response.data;
 

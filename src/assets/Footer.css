@@ -1,0 +1,66 @@
+.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+.fixed-bottom {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1030;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #000;
+    color: #d03291; /* Pink color for icons and text */
+    text-align: center;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    z-index: 1000;
+    border-top: 1px solid #cac6c6;
+    border-radius: 6%;
+    
+  }
+  .footer-icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .footer-nav {
+ 
+
+    background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none; /* Remove underline from links */
+  }
+
+  .justify-content-around {
+    justify-content: space-around !important;
+}
+.d-flex {
+    display: flex !important;
+}
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x)* .5);
+    padding-left: calc(var(--bs-gutter-x)* .5);
+    margin-right: auto;
+    margin-left: auto;
+}
+.text-decoration-none {
+    text-decoration: none !important;
+}
+.text-center {
+    text-align: center !important;
+}

@@ -19,6 +19,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState(100); // Default value is 100 TRX
   const navigate = useNavigate();
+  const [message, setMessage] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value) || 0;
@@ -39,8 +40,14 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
       const success = await Claim(
         userId,
        );
+        setMessage(success.message);
+        setTimeout(() => {
+          setMessage(null);
+          window.location.reload(); // Reload the page after 2 seconds
+        }, 2000);
     } catch (error) {
-      console.error("Failed to confirm payment:", error);
+      console.error("Failed to claim claim:", error);
+      setMessage(error.message);
     }
   };
   
@@ -53,6 +60,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
 
   return (
     <div className="modal">
+      
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         {type === "boost" && (
           <>
@@ -94,6 +102,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
         <h3 className='claim2'>Minimum claim amount is 1 TRX.</h3>
         
            <button className='button-w' onClick={handleClickClaim} type="submit">Claim</button><br/>
+           {message && <div className="flash-message">{message}</div>}
            <button className='button-w' onClick={onClose}>Not yet</button>
           
            </>

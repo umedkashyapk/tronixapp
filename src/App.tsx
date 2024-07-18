@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
+import Loader from './components/loader';
 import Wallet from "./components/Wallet";
 import Footer from "./components/Footer";
 import Mission from "./components/Mission";
@@ -23,7 +24,9 @@ const App = () => {
         </Routes>
         <Footer />
       </Router>
-    </UserProvider>
+      
+     </UserProvider>
+  
   );
 };
 
@@ -32,7 +35,7 @@ const DashboardWrapper: React.FC = () => {
   const { user } = useContext(UserContext);
 // console.log('data',user);
   if (!user) {
-    return <div>Loading...</div>;
+    return <div><Loader /></div>;
   }
 
   return <Dashboard user={user} />;

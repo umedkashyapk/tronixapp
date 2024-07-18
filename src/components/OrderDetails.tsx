@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import QRCode from "qrcode.react";
+import Loader from '../components/loader';
 import "../assets/OrderDetails.css"; // Ensure you have the relevant CSS
 import { fetchMiningDetails } from "../api/mining";
 import { confirmPayment } from "../api/payment";
@@ -20,6 +21,7 @@ const OrderDetails: React.FC = () => {
   };
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
@@ -45,24 +47,30 @@ const OrderDetails: React.FC = () => {
         data.paymentAddress,
         amount
       );
-      if (success) {
-        setShowPopup(true);
-      }
+      console.log("Failed to confirm payment:", success.message);
+      setMessage(success.message);
+      setTimeout(() => {
+        setMessage(null);
+        navigate("/"); // Reload the page after 2 seconds
+      }, 2000);
+      // if (success) {
+      //   setShowPopup(true);
+      // }
     } catch (error) {
       console.error("Failed to confirm payment:", error);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+ 
 
-  if (!data) {
-    return <div>Error loading data</div>;
-  }
+ 
 
   return (
     <div className="order-details">
+      {loading ? (
+        <Loader /> // Show loader when loading
+      ) : (
+        <>
       <div className="order-details-container">
         <h2>Order Details</h2>
         <div className="order-details-content">
@@ -95,6 +103,7 @@ const OrderDetails: React.FC = () => {
         </div>
         <div className="confirm-payment">
           <p>If you have made the payment, please click confirm.</p>
+          {message && <div className="flash-message">{message}</div>}
           <button className="confirm-button" onClick={handleConfirmClick}>
             Confirm
           </button>
@@ -110,7 +119,9 @@ const OrderDetails: React.FC = () => {
             </button>
           </div>
         </div>
+        
       )}
+      </>)}
     </div>
   );
 };

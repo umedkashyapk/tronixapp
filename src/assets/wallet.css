@@ -1,4 +1,12 @@
 /* ReusableModal.css */
+
+  .wallet-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+   
+    /* Enable vertical scrolling if content overflows */
+  }
+
 .modal {
   display: flex;
   align-items: center;
@@ -43,3 +51,79 @@
   display: flex;
   flex-direction: column;
 }
+
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 20px; 
+  overflow-x: auto;
+  /* border: 2px solid #676363; */
+  background-color: #1c1c1e;
+}
+.table-scroll-container {
+  max-height: 400px; /* Adjust based on your design */
+  overflow: auto;
+  margin-bottom: 20px;
+}
+
+/* Style for the table */
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Table header styles */
+.table-container th {
+  background-color: #222;
+  color: #fff;
+  font-weight: bold;
+  text-align: left;
+  padding: 8px;
+  /* border: 1px solid #676363; */
+}
+
+/* Table body styles */
+.table-container td {
+  padding: 8px;
+  /* border: 1px solid #ddd; */
+  padding: .5rem .5rem;
+  text-align: center !important;
+
+}
+
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination span,
+.pagination button {
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.pagination button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+}
+
+.pagination button:hover {
+  text-decoration: underline;
+}
+
+.histroy{
+  justify-content: center;
+    align-items: center;
+    display: flex;
+}
+

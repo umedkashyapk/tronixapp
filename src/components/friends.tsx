@@ -1,6 +1,8 @@
 import React, {useContext, useState, useEffect } from 'react';
 import '../assets/wallet.css'; // Assuming you want to style the wallet page separately
 import { transactionsHistory } from "../api/transactions";
+import { format } from 'date-fns';
+import Loader from '../components/loader';
 import { UserContext } from "../context/UserContext";
 
 const Friends = () => {
@@ -9,6 +11,7 @@ const Friends = () => {
   const [error, setError] = useState(null);
   const userContext = useContext(UserContext);
   
+ 
 
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.id) {
@@ -20,7 +23,7 @@ const Friends = () => {
     try {
       const response = await transactionsHistory(userId, 2); // Adjust the type as needed
       setTransactions(response); // Assuming the transactions are in response.data
-      setLoading(false);
+      setLoading(false); 
       console.log('transactionsHistory', response.data);
     } catch (error) {
       console.error("Error fetching transactionsHistory:", error);
@@ -37,11 +40,20 @@ const Friends = () => {
     navigator.clipboard.writeText(inviteLink);
   };
 
-  if (loading) return <div>Loading...</div>;
+  
   if (error) return <div>Error: {error.message}</div>;
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, 'yy-MM-dd');
+  };
 
   return (
     <div className="wallet-page">
+       {loading ? (
+        <Loader /> // Show loader when loading
+      ) : (
+        <>
       <div className="balance">
         <div className="userref">
           <p className='font'>
@@ -62,10 +74,9 @@ const Friends = () => {
           </button>
         </div>
       </div>
-      {/* <div className="boost-button" style={{ marginTop: '20px' }}>
-        <button>Boost</button>
-      </div> */}
-      <h2>Transaction History</h2>
+      <h2 className="histroy">Transaction History</h2>
+      <div className="table-container">
+   
       <table>
         <thead>
           <tr>
@@ -80,7 +91,7 @@ const Friends = () => {
         <tbody>
           {transactions.map((transaction, index) => (
             <tr key={index}>
-              <td>{transaction.created_at}</td>
+              <td>{formatDate(transaction.created_at)}</td>
               <td>TRX</td>
               <td>{parseFloat(transaction.amount).toLocaleString()}</td>
               <td>{transaction.type === '2' ? 'Referrer' : 'Other'}</td>
@@ -89,11 +100,14 @@ const Friends = () => {
           ))}
         </tbody>
       </table>
+      </div>
       <div className="pagination">
         <span>First</span>
         <button>1</button>
         <span>Last</span>
       </div>
+      </>
+    )}
     </div>
   );
 };
