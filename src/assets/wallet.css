@@ -20,16 +20,17 @@
   z-index: 1000;
 }
 .claim-button {
-  background-color: #007bff; /* Primary color */
-  color: white;
+   /* Primary color */
+  color: #000;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-weight: bold;
 }
 
 .claim-button.claim {
-  background-color: #28a745; /* Green color for claim button */
+  background-color: #fff; /* Green color for claim button */
 }
 
 .claim-button.claim:disabled {
@@ -53,11 +54,11 @@
 }
 
 .table-container {
-  overflow-x: auto;
   margin-bottom: 20px; 
-  overflow-x: auto;
-  /* border: 2px solid #676363; */
+  overflow:auto;
   background-color: #1c1c1e;
+   height: 570px;
+   scrollbar-width: none;
 }
 .table-scroll-container {
   max-height: 400px; /* Adjust based on your design */

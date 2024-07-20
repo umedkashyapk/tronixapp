@@ -1,6 +1,6 @@
 .order-details {
     padding: 20px;
-    background-color: #1a1a1a;
+    /* background-color: #1a1a1a; */
     color: #ffffff;
     border-radius: 10px;
     margin: 20px auto;
@@ -11,7 +11,7 @@
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #19e436;
-    background-color: #5b5c5b;
+    /* background-color: #5b5c5b; */
     color: #19e436;
     text-align: center;
     border-radius: 5px;

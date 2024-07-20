@@ -11,7 +11,9 @@ export const TaskClaim = async (userId: number, taskId: number) => {
     });
     
     console.log('response of TaskClaim api',response);
+    window.location.reload();
     return response.data;
+    
 
   } catch (error) {
     console.error("Error TaskClaim api:", error);

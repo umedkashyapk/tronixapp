@@ -21,7 +21,9 @@
     animation: spin 30s linear infinite;
   }
 
-
+  .spin-animation-fast {
+    animation: spin 10s linear infinite;
+}
 body {
   margin: 0;
   display: flex;
@@ -70,21 +72,21 @@ body {
   .balance-card {
     margin-top: 24px;
 
-    background-color: #1c1c1e;
+    background-color: #CB731A;
     border-radius: 8px;
     padding: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 366px;
-    height: 54px;
+    height: 40px;
     
   }
   .userref {
     margin-top: 24px;
-    border: 2px solid #676363;
+    /* border: 2px solid #cb731a75; */
     padding: 20px;
-    background-color: #1c1c1e;
+    background-color: #cb731a75;
     border-radius: 8px;
     padding: 15px;
     display: flex;
@@ -96,9 +98,9 @@ body {
   }
   .userbutton{
     margin-top: 24px;
-    border: 2px solid #676363;
+    border: 2px solid #cb731a75;
     padding: 20px;
-    background-color: #1c1c1e;
+    background-color: #cb731a75;
     border-radius: 8px;
     padding: 15px;
     display: flex;
@@ -111,7 +113,7 @@ body {
     margin-top: 24px;
     border: 2px solid #676363;
     padding: 20px;
-    background-color: #1c1c1e;
+    background-color: #CB731A;
     border-radius: 8px;
     padding: 15px;
     display: flex;
@@ -159,21 +161,23 @@ body {
   
   .balance-title {
     font-size: 16px;
-    color: #a1a1a1;
+    color: #fff;
   }
   
   .balance-amount {
     font-size: 16px;
     font-weight: bold;
+    margin-top: -17px;
   }
   
   .send-button {
-    background-color: #007BFF;
+    background-color: #fff;
     border: none;
-    color: #fff;
+    color: #000;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
   }
   
   .fan {
@@ -209,9 +213,9 @@ body {
   }
   
   .action-button {
-    background-color: #f4f7fb;
+    background-color: #28a745;
     border: none;
-    color: #000000;
+    color: #fff;
     padding: 10px 75px;
     border-radius: 8px;
     cursor: pointer;
@@ -309,11 +313,11 @@ body {
 
   /* src/components/InviteLink.css */
 .invite-link-container {
-  border: 2px solid #676363;
-  background-color: #222;
+  /* border: 2px solid #676363; */
+  background-color: #fff;
   border-radius: 10px;
   padding: 10px;
-  color: #fff;
+  color:#CB731A ;
   width: 379px;
   max-width: 600px;
   /* margin: auto; */
@@ -323,12 +327,13 @@ body {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
+  
 }
 
 .invite-link-box {
-  background-color: #333;
-  border: 1px solid #444;
-  border-radius: 5px;
+  background-color: #CB731A;
+  border: 1px solid #CB731A;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -337,7 +342,7 @@ body {
 .invite-link {
   flex-grow: 1;
   font-size: 13px;
-  color: #aaa;
+  color: #fff;
   overflow-wrap: break-word;
 }
 
@@ -416,7 +421,7 @@ body {
   
   .mission-reward {
   font-size: 14px;
-  color: #aaa;
+  color: #fff;
   display: flex;
   align-items: center;
   }
@@ -431,18 +436,18 @@ body {
   padding-left: 8px;
   padding-right: 8px;
   height:36px ;
-  background:white;
+  background:#fff;
   border: none;
-  color: #010101;
+  color: #000;
   cursor: pointer;
   }
   .action-button1 {
     padding-left: 70px;
     padding-right: 70px;
     height:36px ;
-    background:white;
+    background:#CB731A;
     border: none;
-    color: #010101;
+    color: #fff;
     cursor: pointer;
     }
     .center{
@@ -552,7 +557,6 @@ body {
   .claim{
     color:#080707;
     text-align: center;
-    margin-top: -10px;
 
   }
   .button-w{

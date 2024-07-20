@@ -1,28 +1,20 @@
-import React, { useState, useEffect } from "react";
-import "../assets/Dashboard.css";
-import "../assets/loader.css"; // Import CSS as a side effect
-import ReusableModal from "./ReusableModal";
-import BalanceCard from "./BalanceCard";
+// src/components/Loader.js
+import React from "react";
+import fanImage from "../assets/fan-image.png";
+import "../assets/loader.css"; // Import the CSS file for styling
 
 const Loader = () => {
   return (
-    <div className="loadingio-spinner-spinner-nq4q5u6dq7r">
-      <div className="ldio-x2uulkbinbj">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div className="overlay">
+      <div className="loader">
+        <img
+          src={fanImage}
+          alt="Loading..."
+          className="fan-image spin-animation1"
+        />
       </div>
     </div>
   );
 };
 
-export default Loader;
+export default Loader;
