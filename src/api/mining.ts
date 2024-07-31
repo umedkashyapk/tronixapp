@@ -1,20 +1,16 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:8000/api'; // Replace with your actual API base URL
+const API_BASE_URL = "https://tronox.me/api"; // Replace with your actual API base URL
 
 export const fetchMiningDetails = async (userId: number, amount: number) => {
   try {
-    
     const response = await axios.post(`${API_BASE_URL}/order_details`, {
       user_id: userId,
-      amount: amount
+      amount: amount,
     });
-    
-    console.log('response of order detail api',response);
+
+    console.log("response of order detail api", response);
     return response.data;
-
-    
-
 
     // return  orderData = {
     // 'miningPower':10,

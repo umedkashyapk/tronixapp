@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
-import Loader from './components/loader';
+import Loader from "./components/Loader";
 import Wallet from "./components/Wallet";
 import Footer from "./components/Footer";
 import Mission from "./components/Mission";
@@ -24,19 +24,25 @@ const App = () => {
         </Routes>
         <Footer />
       </Router>
-      
-     </UserProvider>
-  
+    </UserProvider>
   );
 };
 
 export default App;
 const DashboardWrapper: React.FC = () => {
-  const { user } = useContext(UserContext);
-// console.log('data',user);
-  if (!user) {
-    return <div><Loader /></div>;
+  const context: any = useContext(UserContext);
+  if (!context) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    ); // Or some other fallback UI
   }
-
-  return <Dashboard user={user} />;
+  // const { user } = useContext(UserContext);
+  // console.log('data',user);
+  const { user } = context;
+  if (!user) {
+    return <Loader />;
+  }
+  return <Dashboard user={user as TelegramUser} />;
 };

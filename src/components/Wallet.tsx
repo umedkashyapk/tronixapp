@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { format } from "date-fns";
-import Loader from "../components/loader";
+import Loader from "./Loader";
 import "../assets/wallet.css"; // Assuming you want to style the wallet page separately
 import tronIcon from "../assets/tron-icon.png"; // Replace with the actual path to your icon
 import BalanceCard from "./BalanceCard"; // Import the BalanceCard component
@@ -8,10 +8,11 @@ import { wallet_histroy as fetchWalletHistory } from "../api/wallethistroy"; // 
 import { UserContext } from "../context/UserContext";
 
 const Wallet = () => {
-  const [walletHistory, setWalletHistory] = useState([]); // Rename the state variable
+  const [TransactionHistory, setWalletHistory] = useState<any>([]); // Rename the state variable
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const userContext = useContext(UserContext);
+  const [error, setError] = useState<any>(null);
+  const userContext = useContext<any>(UserContext);
+  const [user, setUser] = useState<any>([]);
 
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.id) {
@@ -19,12 +20,13 @@ const Wallet = () => {
     }
   }, [userContext]);
 
-  const fetchTransactions = async (userId) => {
+  const fetchTransactions = async (userId: any) => {
     try {
-      const response = await fetchWalletHistory(userId); // Use the renamed function
-      setWalletHistory(response.wallet_history[0]);
+      const response = await fetchWalletHistory(userId);
+      console.log("wallet_histroy", response);
+      setUser(response.user_details || {});
+      setWalletHistory(response.TransactionHistory || []);
       setLoading(false);
-      console.log("wallet_histroy", response.wallet_history[0]);
     } catch (error) {
       console.error("Error fetching wallet_histroy:", error);
       setError(error);
@@ -32,14 +34,9 @@ const Wallet = () => {
     }
   };
 
-  const handleSendClick = () => {
-    // Handle send button click
-    console.log("Send button clicked");
-  };
-
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: any) => {
     const date = new Date(dateString);
-    return format(date, "yy-MM-dd");
+    return format(date, "MM-dd");
   };
 
   if (error) {
@@ -56,9 +53,8 @@ const Wallet = () => {
           <BalanceCard
             icon={tronIcon}
             title="TRON Balance"
-            amount={walletHistory.wallet}
-            onSendClick={handleSendClick}
-            userId={walletHistory.id}
+            amount={user.wallet}
+            userId={user.id}
           />
         </div>
         <br />
@@ -74,39 +70,23 @@ const Wallet = () => {
                 <th>Status</th>
               </tr>
               <tr className="thead-underline">
-                <td colSpan="5"></td> {/* Add an empty row for underline */}
+                <td colSpan={5}></td> {/* Add an empty row for underline */}
               </tr>
             </thead>
             <tbody>
-              {walletHistory.transaction_history?.map((transaction, index) => (
-                <tr key={index}>
-                  <td className="center">
-                    {formatDate(transaction.created_at)}
-                  </td>
-                  <td className="center">Trx</td>
-                  <td className="center">{transaction.amount}</td>
-                  <td className="center">Referral</td>
-                  <td className="center">{"✔️"}</td>
-                </tr>
-              ))}
-              {walletHistory.claim_histories?.map((claim, index) => (
-                <tr key={index}>
-                  <td className="center">{formatDate(claim.created_at)}</td>
-                  <td className="center">Trx</td>
-                  <td className="center">{claim.amount}</td>
-                  <td className="center">Claim</td>
-                  <td className="center">{"✔️"}</td>
-                </tr>
-              ))}
-              {walletHistory.user_task?.map((task, index) => (
-                <tr key={index}>
-                  <td className="center">{formatDate(task.created_at)}</td>
-                  <td className="center">Trx</td>
-                  <td className="center">{task.amount}</td>
-                  <td className="center">Task</td>
-                  <td className="center">{"✔️"}</td>
-                </tr>
-              ))}
+              {TransactionHistory?.map(
+                (TransactionHistory: any, index: any) => (
+                  <tr key={index}>
+                    <td className="center">
+                      {formatDate(TransactionHistory.created_at)}
+                    </td>
+                    <td className="center">Trx</td>
+                    <td className="center">{TransactionHistory.amount}</td>
+                    <td className="center">Referral</td>
+                    <td className="center">{"✔️"}</td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>

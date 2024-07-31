@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import "../assets/wallet.css"; // Assuming you want to style the wallet page separately
 import { transactionsHistory } from "../api/transactions";
 import { format } from "date-fns";
-import Loader from "../components/loader";
+import Loader from "./Loader";
 import { UserContext } from "../context/UserContext";
 
 const Friends = () => {
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const userContext = useContext(UserContext);
+  const [error, setError] = useState<any>(null);
+  const userContext = useContext<any>(UserContext);
 
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.id) {
@@ -17,7 +17,7 @@ const Friends = () => {
     }
   }, [userContext]);
 
-  const fetchTransactions = async (userId) => {
+  const fetchTransactions = async (userId: any) => {
     try {
       const response = await transactionsHistory(userId, 2); // Adjust the type as needed
       setTransactions(response); // Assuming the transactions are in response.data
@@ -31,8 +31,8 @@ const Friends = () => {
   };
 
   const inviteLink = userContext?.user?.telegram_id
-    ? `https://t.me/tronixapp_bot?start=${userContext.user.telegram_id}`
-    : "https://t.me/tronixapp_bot";
+    ? `https://t.me/tronoxapp_bot?start=${userContext.user.telegram_id}`
+    : "https://t.me/tronoxapp_bot";
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(inviteLink);
@@ -40,9 +40,9 @@ const Friends = () => {
 
   if (error) return <div>Error: {error.message}</div>;
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: any) => {
     const date = new Date(dateString);
-    return format(date, "yy-MM-dd");
+    return format(date, "MM-dd");
   };
 
   return (
@@ -94,7 +94,7 @@ const Friends = () => {
             </thead>
             <div className="thadeunderline"></div>
             <tbody>
-              {transactions.map((transaction, index) => (
+              {transactions.map((transaction: any, index: any) => (
                 <tr key={index}>
                   <td>{formatDate(transaction.created_at)}</td>
                   <td>TRX</td>

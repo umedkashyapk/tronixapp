@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import QRCode from "qrcode.react";
-import Loader from "../components/loader";
+import Loader from "./Loader";
 import "../assets/OrderDetails.css"; // Ensure you have the relevant CSS
 import { fetchMiningDetails } from "../api/mining";
 import { confirmPayment } from "../api/payment";
 
-interface OrderDetailsProps {
-  userId: number;
-  telegramID: number;
-  amount: number;
-  onClose: () => void;
-}
+// clear
 
 const OrderDetails: React.FC = () => {
   const location = useLocation();
@@ -22,7 +17,7 @@ const OrderDetails: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup] = useState(false);
   const navigate = useNavigate();
   const [buttonLoading, setButtonLoading] = useState(false); // Add state for button loading
   const [buttonText, setButtonText] = useState("Confirm");

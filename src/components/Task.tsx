@@ -1,26 +1,23 @@
 import "../assets/wallet.css";
 import tronIcon from "../assets/tron-icon.png";
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import BalanceCard from "./BalanceCard"; // Import the BalanceCard component
-import {
-  faUsers,
-  faCheck,
-  faArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
-import Loader from "../components/loader";
+import Loader from "./Loader";
 import { task } from "../api/task";
 import { TaskClaim } from "../api/taskclaim";
 
 const Task = () => {
   const [loading, setLoading] = useState(true);
-  const userContext = useContext(UserContext); // Use the context
-  const [missions, setMissions] = useState([]);
-  const [userTotalDirect, setUserTotalDirect] = useState(0);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [user, setUser] = useState([]);
+  const userContext = useContext<any>(UserContext); // Use the context
+  const [missions, setMissions] = useState<any>([]);
+  const [userTotalDirect, setUserTotalDirect] = useState<any>(0);
+  const [buttonLoading, setButtonLoading] = useState<any>({});
+  const [buttonDisabled, setButtonDisabled] = useState<any>({});
+  const [user, setUser] = useState<any>([]);
 
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.telegram_id) {
@@ -28,7 +25,7 @@ const Task = () => {
     }
   }, [userContext]);
 
-  const fetchMissions = async (telegramId) => {
+  const fetchMissions = async (telegramId: any) => {
     try {
       const response = await task(telegramId, 2); // Adjust the type as needed
       console.log("API Response:", response);
@@ -41,21 +38,19 @@ const Task = () => {
       setLoading(false);
     }
   };
-  const handleClaim = async (userId, taskId) => {
-    setButtonDisabled(true);
+  const handleClaim = async (userId: any, taskId: any) => {
+    setButtonLoading((prev: any) => ({ ...prev, [taskId]: true }));
+    setButtonDisabled((prev: any) => ({ ...prev, [taskId]: true }));
     try {
       const success = await TaskClaim(userId, taskId);
-      setTimeout(() => {
-        window.location.reload(); // Reload the page after 2 seconds
-      }, 100);
+      // Reload the page after 2 seconds
+      console.log("TaskClaim:", success);
     } catch (error) {
       console.error("Failed to TaskClaim:", error);
-      setButtonDisabled(false);
+      setButtonDisabled((prev: any) => ({ ...prev, [taskId]: false }));
+    } finally {
+      setButtonLoading((prev: any) => ({ ...prev, [taskId]: false }));
     }
-  };
-
-  const handleSendClick = () => {
-    console.log("Send button clicked");
   };
 
   return (
@@ -69,7 +64,6 @@ const Task = () => {
             icon={tronIcon}
             title="TRON Balance"
             amount={user.wallet}
-            onSendClick={handleSendClick}
             userId={user.id}
           />
         </div>
@@ -87,7 +81,7 @@ const Task = () => {
           </thead>
         </div>
         <div className="balance">
-          {missions.map((mission) => (
+          {missions.map((mission: any) => (
             <div key={mission.id} className={`userbutton`}>
               <FontAwesomeIcon icon={faUsers} className="mission-icon" />
               <div className="mission-details">
@@ -106,9 +100,9 @@ const Task = () => {
                   <button
                     className="claim-button claim"
                     onClick={() => handleClaim(userContext.user.id, mission.id)}
-                    disabled={buttonDisabled}
+                    disabled={buttonDisabled[mission.id] || false}
                   >
-                    Claim
+                    {buttonLoading[mission.id] ? "Loading..." : "Claim"}
                   </button>
                 )
               ) : (

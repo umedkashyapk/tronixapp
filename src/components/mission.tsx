@@ -1,38 +1,37 @@
 import "../assets/wallet.css";
 import tronIcon from "../assets/tron-icon.png";
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BalanceCard from "./BalanceCard"; // Import the BalanceCard component
 import { Link } from "react-router-dom";
-import Loader from "../components/loader";
+import Loader from "./Loader";
 import {
-  faHandPaper,
-  faComments,
-  faBullhorn,
-  faBolt,
+  // faHandPaper,
+  // faComments,
+  // faBullhorn,
+  // faBolt,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
 import { task } from "../api/task";
 import { TaskClaim } from "../api/taskclaim";
 
-const iconMap = {
-  faHandPaper,
-  faComments,
-  faBullhorn,
-  faUsers,
-  faBolt,
-};
+// const iconMap = {
+//   faHandPaper,
+//   faComments,
+//   faBullhorn,
+//   faUsers,
+//   faBolt,
+// };
 
 const Mission = () => {
   const [loading, setLoading] = useState(true);
   const userContext = useContext(UserContext); // Use the context
-  const [missions, setMissions] = useState([]);
+  const [missions, setMissions] = useState<any>([]);
 
-  const [user, setUser] = useState([]);
-  const [buttonLoading, setButtonLoading] = useState(false); // Add state for button loading
-  const [buttonText, setButtonText] = useState("Claim");
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [user, setUser] = useState<any>({});
+  const [buttonLoading, setButtonLoading] = useState<any>({});
+  const [buttonDisabled, setButtonDisabled] = useState<any>({});
 
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.telegram_id) {
@@ -40,10 +39,11 @@ const Mission = () => {
     }
   }, [userContext]);
 
-  const fetchMissions = async (telegramId) => {
+  const fetchMissions = async (telegramId: any) => {
+    // console.log("API task telegramId:", telegramId);
     try {
       const response = await task(telegramId, 1); // Adjust the type as needed
-      console.log("API Response:", response);
+      console.log("API task Response:", response);
       setMissions(response.task_deatils || []);
       setUser(response.user || {});
       setLoading(false);
@@ -53,25 +53,19 @@ const Mission = () => {
     }
   };
 
-  const handleClaim = async (userId, taskId) => {
-    setButtonLoading(true); // Set loading to true when the button is clicked
-    setButtonText("Loading..."); // Change button text to "Loading..."
-    setButtonDisabled(true);
+  const handleClaim = async (userId: any, taskId: any) => {
+    setButtonLoading((prev: any) => ({ ...prev, [taskId]: true }));
+    setButtonDisabled((prev: any) => ({ ...prev, [taskId]: true }));
     try {
       const success = await TaskClaim(userId, taskId);
+      console.log("takclaim success respone", success);
       // Reload the page after 2 seconds
     } catch (error) {
       console.error("Failed to TaskClaim:", error);
-      setButtonDisabled(false);
+      setButtonDisabled((prev: any) => ({ ...prev, [taskId]: false }));
     } finally {
-      setButtonLoading(false); // Set loading to false after the action is completed
-      setButtonText("Claim"); // Reset button text to "Claim"
+      setButtonLoading((prev: any) => ({ ...prev, [taskId]: false }));
     }
-  };
-
-  const handleSendClick = () => {
-    // Handle send button click
-    console.log("Send button clicked");
   };
 
   return (
@@ -85,7 +79,6 @@ const Mission = () => {
             icon={tronIcon}
             title="TRON Balance"
             amount={user.wallet}
-            onSendClick={handleSendClick}
             userId={user.id}
           />
         </div>
@@ -104,7 +97,7 @@ const Mission = () => {
           </thead>
         </div>
         <div className="balance">
-          {missions.map((mission) => (
+          {missions.map((mission: any) => (
             <div key={mission.id} className={`userbutton`}>
               <FontAwesomeIcon icon={faUsers} className="mission-icon" />
               <div className="mission-details">
@@ -125,10 +118,10 @@ const Mission = () => {
               ) : (
                 <button
                   className="claim-button claim"
-                  onClick={() => handleClaim(userContext.user.id, mission.id)}
-                  disabled={buttonDisabled}
+                  onClick={() => handleClaim(user.id, mission.id)}
+                  disabled={buttonDisabled[mission.id] || false}
                 >
-                  {buttonLoading ? "Loading..." : "Claim"}
+                  {buttonLoading[mission.id] ? "Loading..." : "Claim"}
                 </button>
               )}
             </div>

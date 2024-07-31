@@ -1,11 +1,15 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, ReactNode, useState, useEffect } from "react";
 import { checkOrInsertUser } from "../api/user";
 
 interface TelegramUser {
-  telegram_id: number;
+  telegram_id: string;
   first_name: string;
   last_name?: string;
   username?: string;
+}
+
+interface UserProviderProps {
+  children: ReactNode;
 }
 
 interface UserContextProps {
@@ -17,34 +21,64 @@ export const UserContext = createContext<UserContextProps | undefined>(
   undefined
 );
 
-export const UserProvider: React.FC = ({ children }) => {
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<TelegramUser | null>(null);
 
   useEffect(() => {
-    window.Telegram.WebApp.ready();
+    // Extract the referral code from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const startParam = urlParams.get("start");
+    if (startParam) {
+      console.log("Referral Code:", startParam);
+    }
 
-    // Get user info from Telegram Web App API
     const tg = window.Telegram.WebApp;
-    // if (tg.initDataUnsafe.user) {
-    if (true) {
-      let userInfo: TelegramUser = tg.initDataUnsafe.user;
-      console.log("userinfooo", userInfo);
 
-      if (!userInfo) {
-        userInfo = {
-          telegram_id: '43431',
-          first_name: "vicky",
-          last_name: "kashyap",
-          username: "vicky_kashyap",
-        };
-      }
+    tg.ready();
 
-      checkOrInsertUser(userInfo).then((data) => {
-        console.log("response", data);
-        setUser(data);
-      });
+    console.log("Telegram WebApp initialized");
+
+    // let userInfo = tg.initDataUnsafe.user;
+
+    let userInfo = {
+      id: 13,
+      first_name: "pk",
+      last_name: "kashyap",
+    };
+
+    if (userInfo) {
+      console.log("User info from Telegram WebApp API:", userInfo);
+
+      // Include referral code in the user data if available
+      const userData = { userInfo, referral_by: startParam };
+
+      checkOrInsertUser(userData)
+        .then((data) => {
+          console.log("Response from checkOrInsertUser:", data);
+          setUser(data);
+        })
+        .catch((error) => {
+          console.error("Error in checkOrInsertUser:", error);
+        });
     } else {
-      console.error("User data is not available from Telegram Web App API.");
+      console.error(
+        "User data is not available from Telegram Web App API. Using fallback user data for testing."
+      );
+
+      checkOrInsertUser(userInfo)
+        .then((data) => {
+          console.log(
+            "Response from checkOrInsertUser with fallback data:",
+            data
+          );
+          setUser(data);
+        })
+        .catch((error) => {
+          console.error(
+            "Error in checkOrInsertUser with fallback data:",
+            error
+          );
+        });
     }
   }, []);
 

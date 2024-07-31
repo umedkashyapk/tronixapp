@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "../assets/Dashboard.css";
-import Loader from "../components/loader";
+import Loader from "./Loader";
 import ReusableModal from "./ReusableModal";
 import BalanceCard from "./BalanceCard";
 import tronIcon from "../assets/tron-icon.png";
 import fanImage from "../assets/fan-image.png";
 
-interface TelegramUser {
-  claimable_amt: string;
-  is_invested: number;
-}
+// interface TelegramUser {
+//   id: string;
+//   claimable_amt: string;
+//   is_invested: number;
+//   wallet: number;
+//   userId: any;
+// }
 
 interface DashboardProps {
-  user: TelegramUser;
+  user: any;
 }
 
 const Dashboard = ({ user }: DashboardProps) => {
-  const location = useLocation();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<any>(true);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
-  const [animationDuration, setAnimationDuration] = useState(30);
+  const animationDuration = 1500;
+
   const [claimableAmt, setClaimableAmt] = useState<number>(
     parseFloat(user.claimable_amt)
   );
-  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     console.log("dash user", user);
@@ -52,26 +53,33 @@ const Dashboard = ({ user }: DashboardProps) => {
     setModalType("");
   };
 
-  const handleSendClick = () => {
-    console.log("Send button clicked");
-  };
-
   const handleImageClick = () => {
-    setAnimationDuration(animationDuration === 30 ? 10 : 30);
+    const rotatingImage = document.querySelector(
+      ".fan-image"
+    ) as HTMLElement | null;
+
+    if (rotatingImage) {
+      rotatingImage.addEventListener("mousedown", function () {
+        rotatingImage.style.animationDuration = "400ms"; // Increase speed to 0.4s
+      });
+
+      document.addEventListener("mouseup", function () {
+        rotatingImage.style.animationDuration = "1500ms"; // Default speed
+      });
+    } else {
+      console.error("rotatingImage element not found");
+    }
   };
 
   return (
     <>
-      {
-        loading && <Loader /> // Show loader when loading
-      }
+      {loading && <Loader />}
       <div className="dashboard">
         <div className="balances">
           <BalanceCard
             icon={tronIcon}
             title="TRON Balance"
             amount={user.wallet}
-            onClick={handleSendClick}
             userId={user.id}
           />
         </div>
@@ -81,8 +89,9 @@ const Dashboard = ({ user }: DashboardProps) => {
             src={fanImage}
             alt="Fan"
             className="fan-image"
-            style={{ animation: `spin ${animationDuration}s linear infinite` }}
-            onClick={handleImageClick}
+            style={{ animation: `spin ${animationDuration}ms linear infinite` }}
+            onMouseDown={handleImageClick}
+            onMouseUp={handleImageClick}
           />
           <p className="trx-amount">{claimableAmt.toFixed(6)} TRX</p>
           <p className="hash-rate">1.0 GH/s ⚡</p>

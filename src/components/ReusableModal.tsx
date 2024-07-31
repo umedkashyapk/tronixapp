@@ -6,7 +6,7 @@ import { withdrow } from "../api/withdrow";
 interface ReusableModalProps {
   show: boolean;
   type: string;
-  userId: number;
+  userId: any;
   onClose: () => void;
 }
 
@@ -51,12 +51,11 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
         setMessage(null);
         window.location.reload(); // Reload the page after 2 seconds
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to claim claim:", error);
-      setMessage(error.message);
       setButtonDisabled(false);
     } finally {
-      setButtonLoading("Loading..."); // Set loading to false after the action is completed
+      setButtonLoading(true); // Set loading to false after the action is completed
       setButtonText("Claim"); // Reset button text to "Claim"
     }
   };
@@ -65,12 +64,10 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
     e.preventDefault();
     try {
       const response = await withdrow(userId, trxAddress, parseFloat(amount));
-      console.log("Transaction successful withdrow:", response.data);
-      alert(response.message);
+      setMessage(response.message);
       onClose();
     } catch (error) {
       console.error("Failed to withdrow:", error);
-      alert("Error: " + error.message);
     }
   };
 
@@ -133,7 +130,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
         )}
         {type === "send" && (
           <>
-            <h2 className="color">Enter your personal TRX address</h2>
+            <h2 className="color2">Enter your personal TRX address</h2>
             <p className="color1">
               This amount will be sent to the TRC20 compatible wallet address
             </p>
@@ -158,6 +155,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
 
               <p className="color5">Network fee: 2.5 TRX</p>
               {/* <p className="claim3">Receive amount: 0 TRX</p> */}
+              {message && <div className="flash-message">{message}</div>}
               <button style={{ marginTop: "" }} type="submit">
                 Send
               </button>

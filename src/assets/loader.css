@@ -31,7 +31,7 @@
 }
 
 .loader img {
-  width: 50px; /* Adjust size as needed */
-  height: 50px;
+  width: 100px; /* Adjust size as needed */
+  height: 100px;
   /* Add any additional styling for the loader image */
 }

@@ -2,11 +2,23 @@ import React, { useState } from "react";
 import "../assets/Dashboard.css";
 import ReusableModal from "../components/ReusableModal";
 
-const BalanceCard = ({ icon, title, amount, userId }) => {
+interface BalanceCardProps {
+  icon: any; // Use 'any' temporarily
+  title: any; // Use 'any' temporarily
+  amount: any; // Use 'any' temporarily
+  userId: any; // Use 'any' temporarily
+}
+
+const BalanceCard: React.FC<BalanceCardProps> = ({
+  icon,
+  title,
+  amount,
+  userId,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
 
-  const openModal = (type) => {
+  const openModal = (type: any) => {
     setShowModal(true);
     setModalType(type);
   };
