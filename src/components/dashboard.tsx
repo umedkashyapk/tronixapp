@@ -5,6 +5,7 @@ import ReusableModal from "./ReusableModal";
 import BalanceCard from "./BalanceCard";
 import tronIcon from "../assets/tron-icon.png";
 import fanImage from "../assets/fan-image.png";
+import digitronImages from "../assets/tronix baner.png";
 
 // interface TelegramUser {
 //   id: string;
@@ -22,7 +23,8 @@ const Dashboard = ({ user }: DashboardProps) => {
   const [loading, setLoading] = useState<any>(true);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
-  const animationDuration = 1500;
+  // const animationDuration = 1500;
+  const [animationDuration, setAnimationDuration] = useState(5000);
 
   const [claimableAmt, setClaimableAmt] = useState<number>(
     parseFloat(user.claimable_amt)
@@ -53,21 +55,11 @@ const Dashboard = ({ user }: DashboardProps) => {
     setModalType("");
   };
 
-  const handleImageClick = () => {
-    const rotatingImage = document.querySelector(
-      ".fan-image"
-    ) as HTMLElement | null;
-
-    if (rotatingImage) {
-      rotatingImage.addEventListener("mousedown", function () {
-        rotatingImage.style.animationDuration = "400ms"; // Increase speed to 0.4s
-      });
-
-      document.addEventListener("mouseup", function () {
-        rotatingImage.style.animationDuration = "1500ms"; // Default speed
-      });
+  const handleImageClick = (isSpeedUp: boolean): void => {
+    if (isSpeedUp) {
+      setAnimationDuration(1000); // speed up to 1 second
     } else {
-      console.error("rotatingImage element not found");
+      setAnimationDuration(5000); // back to normal speed
     }
   };
 
@@ -90,8 +82,8 @@ const Dashboard = ({ user }: DashboardProps) => {
             alt="Fan"
             className="fan-image"
             style={{ animation: `spin ${animationDuration}ms linear infinite` }}
-            onMouseDown={handleImageClick}
-            onMouseUp={handleImageClick}
+            onTouchStart={() => handleImageClick(true)} // for mobile touch support
+            onTouchEnd={() => handleImageClick(false)} // for mobile touch support
           />
           <p className="trx-amount">{claimableAmt.toFixed(6)} TRX</p>
           <p className="hash-rate">1.0 GH/s ⚡</p>
@@ -105,6 +97,10 @@ const Dashboard = ({ user }: DashboardProps) => {
             Boost
           </button>
         </div>
+        <div className="fan">
+          <img src={digitronImages} alt="Fan" className="digitron-images" />
+        </div>
+
         <ReusableModal
           show={showModal}
           userId={user.id}

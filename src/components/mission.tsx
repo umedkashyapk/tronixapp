@@ -59,7 +59,14 @@ const Mission = () => {
     try {
       const success = await TaskClaim(userId, taskId);
       console.log("takclaim success respone", success);
-      // Reload the page after 2 seconds
+
+      setMissions((prevMissions: any) =>
+        prevMissions.map((mission: any) =>
+          mission.id === taskId
+            ? { ...mission, user_tasks: { task_id: taskId } } // Adjust according to your response
+            : mission
+        )
+      );
     } catch (error) {
       console.error("Failed to TaskClaim:", error);
       setButtonDisabled((prev: any) => ({ ...prev, [taskId]: false }));

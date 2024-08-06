@@ -31,8 +31,8 @@ const Friends = () => {
   };
 
   const inviteLink = userContext?.user?.telegram_id
-    ? `https://t.me/tronoxapp_bot?start=${userContext.user.telegram_id}`
-    : "https://t.me/tronoxapp_bot";
+    ? `http://t.me/Tronoxx_bot/?start=${userContext.user.telegram_id}`
+    : "http://t.me/Tronoxx_bot/?start=";
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(inviteLink);

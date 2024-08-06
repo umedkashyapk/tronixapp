@@ -193,11 +193,13 @@ box-shadow: inset 2px 2px 18px #0e0303a6;
   }
   
   .trx-amount {
+    margin-top: -40px;
     font-size: 24px;
     font-weight: bold;
   }
   
   .hash-rate {
+    margin-top: -20px;
     font-size: 16px;
     color: #a1a1a1;
   }
@@ -554,6 +556,12 @@ box-shadow: inset 2px 2px 18px #0e0303a6;
     margin-top: -19px;
     text-align: center;
 
+  }
+  .digitron-images{
+    width: 280px;
+    height: 115px;
+    border-radius: 15px;
+    border: solid 1px #ca721a;
   }
   .claim{
     color:#080707;

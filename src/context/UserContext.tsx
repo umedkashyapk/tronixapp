@@ -25,34 +25,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<TelegramUser | null>(null);
 
   useEffect(() => {
-    // Extract the referral code from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const startParam = urlParams.get("start");
-    if (startParam) {
-      console.log("Referral Code:", startParam);
-    }
-
     const tg = window.Telegram.WebApp;
 
     tg.ready();
 
-    console.log("Telegram WebApp initialized");
+    console.log("Telegram WebApp initialized", tg.initDataUnsafe);
 
-    // let userInfo = tg.initDataUnsafe.user;
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log("urlParams:", urlParams);
+    const start = urlParams.get("start");
+    console.log("Referral Code:", start);
 
-    let userInfo = {
-      id: 13,
-      first_name: "pk",
-      last_name: "kashyap",
-    };
+    const userInfo = tg.initDataUnsafe.user;
 
     if (userInfo) {
       console.log("User info from Telegram WebApp API:", userInfo);
 
       // Include referral code in the user data if available
-      const userData = { userInfo, referral_by: startParam };
 
-      checkOrInsertUser(userData)
+      checkOrInsertUser(userInfo)
         .then((data) => {
           console.log("Response from checkOrInsertUser:", data);
           setUser(data);
@@ -65,7 +56,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         "User data is not available from Telegram Web App API. Using fallback user data for testing."
       );
 
-      checkOrInsertUser(userInfo)
+      // Fallback user data (you should define the fallback userInfo if needed)
+      const fallbackUserInfo = {
+        id: 14,
+        first_name: "vpk",
+        last_name: "kashyap",
+      };
+
+      checkOrInsertUser(fallbackUserInfo)
         .then((data) => {
           console.log(
             "Response from checkOrInsertUser with fallback data:",
