@@ -3,8 +3,13 @@
   .wallet-page {
     padding: 20px;
     font-family: Arial, sans-serif;
+    text-align: center;
    
     /* Enable vertical scrolling if content overflows */
+  }
+  .date-fontsize
+  {
+    font-size: 12px;
   }
 
 .modal {
@@ -55,11 +60,12 @@
 
 .table-container {
   margin-bottom: 20px; 
-  overflow:auto;
+  overflow:scroll;
   background-color: #1c1c1e;
-   height: auto;
+   height: 320px;
    scrollbar-width: none;
 }
+
 .table-scroll-container {
   max-height: 400px; /* Adjust based on your design */
   overflow: auto;
@@ -78,10 +84,11 @@
   background-color: #222;
   color: #fff;
   font-weight: bold;
-  text-align: left;
+  /* text-align: left; */
   padding: 8px;
   /* border: 1px solid #676363; */
 }
+
 
 /* Table body styles */
 .table-container td {
@@ -127,5 +134,5 @@
     align-items: center;
     align-items: center;
     display: flex;
+    color: #fff;
 }
-

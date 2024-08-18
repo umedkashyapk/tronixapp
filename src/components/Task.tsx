@@ -3,8 +3,8 @@ import tronIcon from "../assets/tron-icon.png";
 import { useContext, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import BalanceCard from "./BalanceCard"; // Import the BalanceCard component
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import BalanceCard from "./BalanceCard";
+import { faUsers, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
 import Loader from "./Loader";
 import { task } from "../api/task";
@@ -12,12 +12,13 @@ import { TaskClaim } from "../api/taskclaim";
 
 const Task = () => {
   const [loading, setLoading] = useState(true);
-  const userContext = useContext<any>(UserContext); // Use the context
+  const userContext = useContext<any>(UserContext);
   const [missions, setMissions] = useState<any>([]);
   const [userTotalDirect, setUserTotalDirect] = useState<any>(0);
   const [buttonLoading, setButtonLoading] = useState<any>({});
   const [buttonDisabled, setButtonDisabled] = useState<any>({});
   const [user, setUser] = useState<any>([]);
+  const [claimedMissions, setClaimedMissions] = useState<any>({});
 
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.telegram_id) {
@@ -27,7 +28,7 @@ const Task = () => {
 
   const fetchMissions = async (telegramId: any) => {
     try {
-      const response = await task(telegramId, 2); // Adjust the type as needed
+      const response = await task(telegramId, 2);
       console.log("API Response:", response);
       setMissions(response.task_deatils || []);
       setUser(response.user || {});
@@ -38,12 +39,15 @@ const Task = () => {
       setLoading(false);
     }
   };
+
   const handleClaim = async (userId: any, taskId: any) => {
     setButtonLoading((prev: any) => ({ ...prev, [taskId]: true }));
     setButtonDisabled((prev: any) => ({ ...prev, [taskId]: true }));
     try {
       const success = await TaskClaim(userId, taskId);
-      // Reload the page after 2 seconds
+      if (success) {
+        setClaimedMissions((prev: any) => ({ ...prev, [taskId]: true }));
+      }
       console.log("TaskClaim:", success);
     } catch (error) {
       console.error("Failed to TaskClaim:", error);
@@ -55,10 +59,9 @@ const Task = () => {
 
   return (
     <>
-      {
-        loading && <Loader /> // Show loader when loading
-      }
-      <div className="wallet-page">
+      {loading && <Loader />}
+      <style>{`.wallet-page1 { padding: 20px; font-family: Arial, sans-serif; height: 103%; text-align: center; }`}</style>
+      <div className="wallet-page1">
         <div className="balance">
           <BalanceCard
             icon={tronIcon}
@@ -77,6 +80,9 @@ const Task = () => {
               <Link to="/task">
                 <th className="task-ref">Ref</th>
               </Link>
+              <Link to="/special">
+                <th className="task-ref">Content</th>
+              </Link>
             </tr>
           </thead>
         </div>
@@ -93,16 +99,21 @@ const Task = () => {
               </div>
 
               {mission.direct <= userTotalDirect ? (
-                mission.user_tasks &&
-                mission.user_tasks.task_id === mission.id ? (
+                claimedMissions[mission.id] ||
+                (mission.user_tasks &&
+                  mission.user_tasks.task_id === mission.id) ? (
                   <p className="center">✔️</p>
                 ) : (
                   <button
                     className="claim-button claim"
-                    onClick={() => handleClaim(userContext.user.id, mission.id)}
+                    onClick={() => handleClaim(user.id, mission.id)}
                     disabled={buttonDisabled[mission.id] || false}
                   >
-                    {buttonLoading[mission.id] ? "Loading..." : "Claim"}
+                    {buttonLoading[mission.id] ? (
+                      <FontAwesomeIcon icon={faSpinner} spin />
+                    ) : (
+                      "Claim"
+                    )}
                   </button>
                 )
               ) : (

@@ -24,11 +24,17 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [trxAddress, setTrxAddress] = useState("");
   const [amount, setAmount] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value) || 0;
+    const value = parseFloat(e.target.value) || 100;
     if (value <= 1000000) {
       setInputValue(value);
+    }
+    if (value < 100) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
     }
   };
 
@@ -65,7 +71,10 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
     try {
       const response = await withdrow(userId, trxAddress, parseFloat(amount));
       setMessage(response.message);
-      onClose();
+      setTimeout(() => {
+        setMessage(null);
+        window.location.reload(); // Reload the page after 2 seconds
+      }, 2000);
     } catch (error) {
       console.error("Failed to withdrow:", error);
     }
@@ -96,8 +105,10 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
               />
               <p className="boost3">Minimum amount 100 TRX</p>
               <p className="boost3">Maximum amount 1,000,000 TRX</p>
-
-              <button type="submit">Add</button>
+              <button type="submit" disabled={isDisabled}>
+                Add
+              </button>
+              {/* <button type="submit">Add</button> */}
               <button type="button" className="cancel-button" onClick={onClose}>
                 Back
               </button>
@@ -156,9 +167,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
               <p className="color5">Network fee: 2.5 TRX</p>
               {/* <p className="claim3">Receive amount: 0 TRX</p> */}
               {message && <div className="flash-message">{message}</div>}
-              <button style={{ marginTop: "" }} type="submit">
-                Send
-              </button>
+              <button type="submit">Send</button>
               <br />
               <button
                 style={{

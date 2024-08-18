@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState, useEffect } from "react";
+import React, { createContext, ReactNode, useState } from "react";
 import { checkOrInsertUser } from "../api/user";
 
 interface TelegramUser {
@@ -14,7 +14,8 @@ interface UserProviderProps {
 
 interface UserContextProps {
   user: TelegramUser | null;
-  setUser: React.Dispatch<React.SetStateAction<TelegramUser | null>>;
+  setUser: React.Dispatch<React.SetStateAction<null>>;
+  fetchUserData: () => void;
 }
 
 export const UserContext = createContext<UserContextProps | undefined>(
@@ -22,66 +23,34 @@ export const UserContext = createContext<UserContextProps | undefined>(
 );
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<TelegramUser | null>(null);
+  const [user, setUser] = useState<any>([]);
 
-  useEffect(() => {
+  const fetchUserData = () => {
     const tg = window.Telegram.WebApp;
 
     tg.ready();
-
-    console.log("Telegram WebApp initialized", tg.initDataUnsafe);
-
-    const urlParams = new URLSearchParams(window.location.search);
-    console.log("urlParams:", urlParams);
-    const start = urlParams.get("start");
-    console.log("Referral Code:", start);
-
     const userInfo = tg.initDataUnsafe.user;
+    // const userInfo = {
+    //   id: "32423521",
+    //   first_name: "pk",
+    //   last_name: "User",
+    // };
 
     if (userInfo) {
-      console.log("User info from Telegram WebApp API:", userInfo);
-
-      // Include referral code in the user data if available
-
       checkOrInsertUser(userInfo)
         .then((data) => {
-          console.log("Response from checkOrInsertUser:", data);
           setUser(data);
         })
         .catch((error) => {
           console.error("Error in checkOrInsertUser:", error);
         });
     } else {
-      console.error(
-        "User data is not available from Telegram Web App API. Using fallback user data for testing."
-      );
-
-      // Fallback user data (you should define the fallback userInfo if needed)
-      const fallbackUserInfo = {
-        id: 14,
-        first_name: "vpk",
-        last_name: "kashyap",
-      };
-
-      checkOrInsertUser(fallbackUserInfo)
-        .then((data) => {
-          console.log(
-            "Response from checkOrInsertUser with fallback data:",
-            data
-          );
-          setUser(data);
-        })
-        .catch((error) => {
-          console.error(
-            "Error in checkOrInsertUser with fallback data:",
-            error
-          );
-        });
+      console.error("User data is not available from Telegram Web App API.");
     }
-  }, []);
+  };
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, fetchUserData }}>
       {children}
     </UserContext.Provider>
   );

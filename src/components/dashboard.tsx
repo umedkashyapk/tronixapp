@@ -6,44 +6,53 @@ import BalanceCard from "./BalanceCard";
 import tronIcon from "../assets/tron-icon.png";
 import fanImage from "../assets/fan-image.png";
 import digitronImages from "../assets/tronix baner.png";
-
-// interface TelegramUser {
-//   id: string;
-//   claimable_amt: string;
-//   is_invested: number;
-//   wallet: number;
-//   userId: any;
-// }
+import bolt from "../assets/bolt.gif";
 
 interface DashboardProps {
   user: any;
 }
 
 const Dashboard = ({ user }: DashboardProps) => {
-  const [loading, setLoading] = useState<any>(true);
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState("");
-  // const animationDuration = 1500;
-  const [animationDuration, setAnimationDuration] = useState(5000);
-
+  const [loading, setLoading] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<string>("");
+  const [animationDuration, setAnimationDuration] = useState<number>(2000);
   const [claimableAmt, setClaimableAmt] = useState<number>(
     parseFloat(user.claimable_amt)
   );
 
   useEffect(() => {
     console.log("dash user", user);
+    setLoading(true);
+
+    setClaimableAmt(parseFloat(user.claimable_amt));
+    console.log("claimableAmt", claimableAmt);
     setLoading(false);
-    // Update the claimable amount at a fixed rate
-    const mining_rate = user.is_invested === 2 ? 100 : 200;
 
-    const incrementAmount = 0.000001; // Increment value per interval
+    const roiRateAsNumber =
+      typeof user.roi_rate === "string"
+        ? parseFloat(user.roi_rate)
+        : user.roi_rate;
+
+    if (isNaN(roiRateAsNumber)) {
+      console.error("Invalid ROI rate value:", user.roi_rate);
+      return;
+    }
+
+    // Adjust the rate for 10 milliseconds
+    const ratePerTenMilliseconds = roiRateAsNumber / 100;
+    console.log("roiRateAsNumber", roiRateAsNumber);
+    console.log("ratePerTenMilliseconds", ratePerTenMilliseconds);
+
     const interval = setInterval(() => {
-      setClaimableAmt((prevAmt) => prevAmt + incrementAmount);
-    }, mining_rate); // Update every 100ms
+      setClaimableAmt((prevAmt) => {
+        const newAmount = prevAmt + ratePerTenMilliseconds;
+        return parseFloat(newAmount.toFixed(8));
+      });
+    }, 10);
 
-    // Clean up the interval on component unmount
     return () => clearInterval(interval);
-  }, [user.is_invested]);
+  }, [user]); // Watching for changes in the user object
 
   const openModal = (type: string) => {
     setShowModal(true);
@@ -56,11 +65,7 @@ const Dashboard = ({ user }: DashboardProps) => {
   };
 
   const handleImageClick = (isSpeedUp: boolean): void => {
-    if (isSpeedUp) {
-      setAnimationDuration(1000); // speed up to 1 second
-    } else {
-      setAnimationDuration(5000); // back to normal speed
-    }
+    setAnimationDuration(isSpeedUp ? 500 : 1500);
   };
 
   return (
@@ -82,11 +87,16 @@ const Dashboard = ({ user }: DashboardProps) => {
             alt="Fan"
             className="fan-image"
             style={{ animation: `spin ${animationDuration}ms linear infinite` }}
-            onTouchStart={() => handleImageClick(true)} // for mobile touch support
-            onTouchEnd={() => handleImageClick(false)} // for mobile touch support
+            onMouseDown={() => handleImageClick(true)}
+            onMouseUp={() => handleImageClick(false)}
+            onTouchStart={() => handleImageClick(true)}
+            onTouchEnd={() => handleImageClick(false)}
           />
-          <p className="trx-amount">{claimableAmt.toFixed(6)} TRX</p>
-          <p className="hash-rate">1.0 GH/s ⚡</p>
+          <p className="trx-amount">{claimableAmt.toFixed(8)} TRX</p>
+          <p className="hash-rate">
+            {user.totalPower} GH/s{" "}
+            <img src={bolt} alt="Mining Power" className="w-8 h-8" />
+          </p>
         </div>
 
         <div className="actions">
@@ -97,6 +107,7 @@ const Dashboard = ({ user }: DashboardProps) => {
             Boost
           </button>
         </div>
+
         <div className="fan">
           <img src={digitronImages} alt="Fan" className="digitron-images" />
         </div>

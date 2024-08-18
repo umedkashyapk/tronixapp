@@ -5,30 +5,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BalanceCard from "./BalanceCard"; // Import the BalanceCard component
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
-import {
-  // faHandPaper,
-  // faComments,
-  // faBullhorn,
-  // faBolt,
-  faUsers,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
 import { task } from "../api/task";
 import { TaskClaim } from "../api/taskclaim";
-
-// const iconMap = {
-//   faHandPaper,
-//   faComments,
-//   faBullhorn,
-//   faUsers,
-//   faBolt,
-// };
 
 const Mission = () => {
   const [loading, setLoading] = useState(true);
   const userContext = useContext(UserContext); // Use the context
   const [missions, setMissions] = useState<any>([]);
-
+  const [inviteFirstFriend, setInviteFirstFriend] = useState<boolean | null>(
+    null
+  );
   const [user, setUser] = useState<any>({});
   const [buttonLoading, setButtonLoading] = useState<any>({});
   const [buttonDisabled, setButtonDisabled] = useState<any>({});
@@ -40,18 +28,20 @@ const Mission = () => {
   }, [userContext]);
 
   const fetchMissions = async (telegramId: any) => {
-    // console.log("API task telegramId:", telegramId);
     try {
       const response = await task(telegramId, 1); // Adjust the type as needed
       console.log("API task Response:", response);
       setMissions(response.task_deatils || []);
       setUser(response.user || {});
+      setInviteFirstFriend(response.Invite_first_friend);
+
       setLoading(false);
     } catch (error) {
       console.error("Error fetching task_deatils:", error);
       setLoading(false);
     }
   };
+  console.log("inviteFirstFriend", inviteFirstFriend);
 
   const handleClaim = async (userId: any, taskId: any) => {
     setButtonLoading((prev: any) => ({ ...prev, [taskId]: true }));
@@ -93,12 +83,14 @@ const Mission = () => {
         <div className="task-ref-button">
           <thead>
             <tr className="table-th">
-              <Link to="">
-                {" "}
+              <Link to="/mission">
                 <th className="task-ref">Task</th>
               </Link>
               <Link to="/task">
                 <th className="task-ref">Ref</th>
+              </Link>
+              <Link to="/special">
+                <th className="task-ref">Content</th>
               </Link>
             </tr>
           </thead>
@@ -118,7 +110,11 @@ const Mission = () => {
               {mission.user_tasks &&
               mission.user_tasks.task_id === mission.id ? (
                 <p className="center">✔️</p>
-              ) : mission.id == 3 && user.status == 1 ? (
+              ) : mission.id == 2 && user.status == 1 ? (
+                <button className="claim-button claim" disabled>
+                  Claim
+                </button>
+              ) : mission.id == 3 && inviteFirstFriend == null ? (
                 <button className="claim-button claim" disabled>
                   Claim
                 </button>
@@ -128,7 +124,11 @@ const Mission = () => {
                   onClick={() => handleClaim(user.id, mission.id)}
                   disabled={buttonDisabled[mission.id] || false}
                 >
-                  {buttonLoading[mission.id] ? "Loading..." : "Claim"}
+                  {buttonLoading[mission.id] ? (
+                    <FontAwesomeIcon icon={faSpinner} spin />
+                  ) : (
+                    "Claim"
+                  )}
                 </button>
               )}
             </div>

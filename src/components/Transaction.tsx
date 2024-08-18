@@ -1,14 +1,15 @@
 import { useContext, useState, useEffect } from "react";
 import { format } from "date-fns";
 import Loader from "./Loader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "../assets/wallet.css"; // Assuming you want to style the wallet page separately
 import tronIcon from "../assets/tron-icon.png"; // Replace with the actual path to your icon
 import BalanceCard from "./BalanceCard"; // Import the BalanceCard component
-import { wallet_histroy as fetchWalletHistory } from "../api/wallethistroy"; // Rename the imported function
+import { Bost_history as Bost_history } from "../api/bost"; // Rename the imported function
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
+
 const Wallet = () => {
   const [TransactionHistory, setWalletHistory] = useState<any>([]); // Rename the state variable
   const [loading, setLoading] = useState(true);
@@ -24,13 +25,13 @@ const Wallet = () => {
 
   const fetchTransactions = async (userId: any) => {
     try {
-      const response = await fetchWalletHistory(userId);
-      console.log("wallet_histroy", response);
+      const response = await Bost_history(userId);
+      console.log("Bost_history", response);
       setUser(response.user_details || {});
-      setWalletHistory(response.TransactionHistory || []);
+      setWalletHistory(response.bost || []);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching wallet_histroy:", error);
+      console.error("Error fetching Bost_history:", error);
       setError(error);
       setLoading(false);
     }
@@ -64,20 +65,18 @@ const Wallet = () => {
           <Link to="/wallet">
             <button className="action-button1">Transaction</button>
           </Link>
-
           <Link to="/transaction">
-            <button className="action-button1">Booster</button>{" "}
+            <button className="action-button1">Booster</button>
           </Link>
         </div>
-
-        <h3 className="history">Wallet Transaction</h3>
+        <h3 className="history">Your Investment </h3>
         <div className="table-container">
           <table>
             <thead>
               <tr>
+                <th>Boost</th>
                 <th>Date</th>
                 <th>Sum</th>
-                <th>Type</th>
                 <th>Status</th>
               </tr>
               <tr className="thead-underline">
@@ -88,19 +87,11 @@ const Wallet = () => {
               {TransactionHistory?.map(
                 (TransactionHistory: any, index: any) => (
                   <tr key={index}>
+                    <td className="center">{index + 1}</td>{" "}
                     <td className="center date-fontsize">
                       {formatDate(TransactionHistory.created_at)}
                     </td>
                     <td className="center">{TransactionHistory.amount}</td>
-                    <td className="center">
-                      {TransactionHistory.type == 1
-                        ? "Task"
-                        : TransactionHistory.type == 2
-                        ? "Referral"
-                        : TransactionHistory.type == 0
-                        ? "Claim"
-                        : "Withdraw"}
-                    </td>
                     <td>
                       {TransactionHistory.status == 1 ? (
                         <FontAwesomeIcon icon={faSpinner} spin />

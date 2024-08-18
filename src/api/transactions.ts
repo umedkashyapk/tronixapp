@@ -4,6 +4,7 @@ const API_BASE_URL = "https://tronox.me/api"; // Replace with your actual API ba
 
 export const transactionsHistory = async (userId: number, type: number) => {
   try {
+    console.log('tttt');
     const response = await axios.post(`${API_BASE_URL}/transactions`, {
       user_id: userId,
       type: type,

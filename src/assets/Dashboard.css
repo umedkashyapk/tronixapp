@@ -24,6 +24,12 @@
   .spin-animation-fast {
     animation: spin 10s linear infinite;
 }
+.h-8 {
+  height: 2rem;
+}
+.w-8 {
+  width: 2rem;
+}
 body {
   margin: 0;
   display: flex;
@@ -33,13 +39,14 @@ body {
   justify-content: center;
 
     background-color: #000;
-    color: #fff;
+    /* color: #fff; */
     font-family: 'Arial', sans-serif;
   }
   
   .dashboard {
     text-align: center;
     padding: 20px;
+    height: 105%;
   }
   
   .header {
@@ -118,10 +125,26 @@ box-shadow: inset 2px 2px 18px #0e0303a6;
     border-radius: 8px;
     padding: 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 35px;
+    width: 50px;
     height: 8px;
+    margin: 0px 0px 0px 8px;
+  }
+
+  .task-ref1{
+    margin-top: 24px;
+    /* border: 2px solid #676363; */
+    box-shadow: inset 2px 2px 18px #f7f3f380;
+    padding: 20px;
+    background-color: #CB731A;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65px;
+    height: 20px;
     margin: 0px 0px 0px 8px;
   }
   .task-ref-button{
@@ -169,6 +192,7 @@ box-shadow: inset 2px 2px 18px #0e0303a6;
     font-size: 16px;
     font-weight: bold;
     margin-top: -17px;
+    align-items: center;
   }
   
   .send-button {
@@ -193,7 +217,7 @@ box-shadow: inset 2px 2px 18px #0e0303a6;
   }
   
   .trx-amount {
-    margin-top: -40px;
+    margin-top: -10px;
     font-size: 24px;
     font-weight: bold;
   }
@@ -416,9 +440,9 @@ box-shadow: inset 2px 2px 18px #0e0303a6;
   }
   
   .mission-title {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
-  margin-bottom: -12px;
+  margin-bottom: -10px;
   }
   
   .mission-reward {
@@ -559,7 +583,7 @@ box-shadow: inset 2px 2px 18px #0e0303a6;
   }
   .digitron-images{
     width: 280px;
-    height: 115px;
+    /* height: 115px; */
     border-radius: 15px;
     border: solid 1px #ca721a;
   }

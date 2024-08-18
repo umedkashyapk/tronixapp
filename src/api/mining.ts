@@ -4,6 +4,7 @@ const API_BASE_URL = "https://tronox.me/api"; // Replace with your actual API ba
 
 export const fetchMiningDetails = async (userId: number, amount: number) => {
   try {
+    console.log('rrrrr');
     const response = await axios.post(`${API_BASE_URL}/order_details`, {
       user_id: userId,
       amount: amount,
