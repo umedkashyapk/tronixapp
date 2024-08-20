@@ -264,6 +264,7 @@ box-shadow: inset 2px 2px 18px #0e0303a6;
     color: #fff;
     border-radius: 8px;
     max-width: 600px;
+    max-height: 400px;
     margin: 20px auto;
   }
   

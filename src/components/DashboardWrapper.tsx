@@ -16,7 +16,7 @@ const DashboardWrapper: React.FC = () => {
     return <Loader />;
   }
 
-  return <Dashboard key={context.user.telegram_id} user={context.user} />;
+  return <Dashboard user={context.user} />;
 };
 
 export default DashboardWrapper;

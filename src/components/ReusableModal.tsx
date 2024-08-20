@@ -16,7 +16,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
   userId,
   onClose,
 }) => {
-  const [inputValue, setInputValue] = useState(100); // Default value is 100 TRX
+  const [inputValue, setInputValue] = useState(0); // Default value is 100 TRX
   const navigate = useNavigate();
   const [message, setMessage] = useState<string | null>(null);
   const [buttonLoading, setButtonLoading] = useState(false); // Add state for button loading
@@ -27,8 +27,8 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value) || 100;
-    if (value <= 1000000) {
+    const value = parseFloat(e.target.value) || 0;
+    if (value <= 10000000) {
       setInputValue(value);
     }
     if (value < 100) {
