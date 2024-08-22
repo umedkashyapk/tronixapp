@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { format } from "date-fns";
 import Loader from "./Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../assets/wallet.css"; // Assuming you want to style the wallet page separately
 import tronIcon from "../assets/tron-icon.png"; // Replace with the actual path to your icon
 import BalanceCard from "./BalanceCard"; // Import the BalanceCard component
@@ -101,13 +101,18 @@ const Wallet = () => {
                         ? "Claim"
                         : "Withdraw"}
                     </td>
-                    <td>
+                    <td className="center">
                       {TransactionHistory.status == 1 ? (
                         <FontAwesomeIcon icon={faSpinner} spin />
-                      ) : (
+                      ) : TransactionHistory.status == 2 ? (
                         <FontAwesomeIcon
                           icon={faCheck}
                           style={{ color: "#1de61d" }}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          style={{ color: "red" }}
                         />
                       )}
                     </td>

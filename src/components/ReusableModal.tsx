@@ -24,17 +24,11 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [trxAddress, setTrxAddress] = useState("");
   const [amount, setAmount] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value) || 0;
     if (value <= 10000000) {
       setInputValue(value);
-    }
-    if (value < 100) {
-      setIsDisabled(true);
-    } else {
-      setIsDisabled(false);
     }
   };
 
@@ -84,6 +78,11 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
     return null;
   }
 
+  const disable = (value: any) => {
+    const numericValue = Number(value);
+    return isNaN(numericValue) || numericValue < 100;
+  };
+
   return (
     <div className="modal">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -105,7 +104,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
               />
               <p className="boost3">Minimum amount 100 TRX</p>
               <p className="boost3">Maximum amount 1,000,000 TRX</p>
-              <button type="submit" disabled={isDisabled}>
+              <button type="submit" disabled={disable(inputValue)}>
                 Add
               </button>
               {/* <button type="submit">Add</button> */}

@@ -8,7 +8,7 @@ import { Bost_history as Bost_history } from "../api/bost"; // Rename the import
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const Wallet = () => {
   const [TransactionHistory, setWalletHistory] = useState<any>([]); // Rename the state variable
@@ -92,13 +92,18 @@ const Wallet = () => {
                       {formatDate(TransactionHistory.created_at)}
                     </td>
                     <td className="center">{TransactionHistory.amount}</td>
-                    <td>
+                    <td className="center">
                       {TransactionHistory.status == 1 ? (
                         <FontAwesomeIcon icon={faSpinner} spin />
-                      ) : (
+                      ) : TransactionHistory.status == 2 ? (
                         <FontAwesomeIcon
                           icon={faCheck}
                           style={{ color: "#1de61d" }}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          style={{ color: "red" }}
                         />
                       )}
                     </td>

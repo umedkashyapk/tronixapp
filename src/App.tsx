@@ -8,6 +8,7 @@ import Task from "./components/Task";
 import Special from "./components/Special";
 import Friends_List from "./components/Friends_List";
 import VerificationForm from "./components/VerificationForm";
+import FbPopup from "./components/FbPopup";
 import { UserProvider } from "./context/UserContext";
 import OrderDetails from "./components/OrderDetails";
 import DashboardWrapper from "./components/DashboardWrapper";
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/friends" element={<Friends />} />
           <Route path="/mission" element={<Mission />} />
           <Route path="/task" element={<Task />} />
+          <Route path="/fbpopup" element={<FbPopup />} />
           <Route path="/special" element={<Special />} />
           <Route path="/friendslist" element={<Friends_List />} />
           <Route path="/verificationForm" element={<VerificationForm />} />

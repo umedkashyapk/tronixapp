@@ -83,6 +83,9 @@ const Task = () => {
               <Link to="/special">
                 <th className="task-ref">Content</th>
               </Link>
+              <Link to="/fbpopup">
+                <th className="task-ref">Earn by FB</th>
+              </Link>
             </tr>
           </thead>
         </div>

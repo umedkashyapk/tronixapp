@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const API_BASE_URL = "https://tronox.me/api";
 // const API_BASE_URL = process.env.REACT_APP_BASE_URL; // Replace with your actual API base URL
 
 export const Claim = async (userId: number) => {

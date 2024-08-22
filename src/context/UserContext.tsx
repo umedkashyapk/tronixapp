@@ -31,12 +31,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const tg = window.Telegram.WebApp;
 
     tg.ready();
-    // const userInfo = tg.initDataUnsafe.user;
-    const userInfo = {
-      id: "123467890",
-      first_name: "pk",
-      last_name: "User",
-    };
+    const userInfo = tg.initDataUnsafe.user;
+    // const userInfo = {
+    //   id: "123467890",
+    //   first_name: "pk",
+    //   last_name: "User",
+    // };
 
     if (userInfo) {
       checkOrInsertUser(userInfo)

@@ -6,12 +6,11 @@ import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { LinkVerify } from "../api/linkverify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 
 const Special = () => {
   const userContext = useContext<any>(UserContext); // Use the context
   const [reward, setMissions] = useState<any>([]);
+
   useEffect(() => {
     if (userContext && userContext.user && userContext.user.telegram_id) {
       fetchMissions(userContext.user.telegram_id);
@@ -1691,12 +1690,7 @@ button[disabled] {
       </div>
       <div>
         <hr className="border-tg-accent-text-color my-3 opacity-60 mx-10" />
-        <Link to="/verificationForm">
-          <button className="shadow mt-4 flex gap-2 items-center justify-center mx-auto bg-tg-button-color text-tg-button-text-color rounded-xl min-w-fit py-2 px-3 active:scale-95 transform transition-all">
-            <FontAwesomeIcon icon={faFacebook} className="w-5 h-5" />
-            <div className="text-sm font-medium">Earn by Facebook</div>
-          </button>
-        </Link>
+
         <div className="text-center text-sm textcolor">And get up to</div>
         <div className="flex gap-2 justify-center items-center -ml-6">
           <img src={fanImage} alt="TRONOX" className="w-7 h-7" />
