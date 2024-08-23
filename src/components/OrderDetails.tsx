@@ -6,8 +6,6 @@ import "../assets/OrderDetails.css"; // Ensure you have the relevant CSS
 import { fetchMiningDetails } from "../api/mining";
 import { confirmPayment } from "../api/payment";
 
-// clear
-
 const OrderDetails: React.FC = () => {
   const location = useLocation();
   const { userId, amount } = location.state || {
@@ -21,6 +19,7 @@ const OrderDetails: React.FC = () => {
   const navigate = useNavigate();
   const [buttonLoading, setButtonLoading] = useState(false); // Add state for button loading
   const [buttonText, setButtonText] = useState("Confirm");
+  const [tx_hash, setTxHash] = useState<any>(""); // New state for the transaction hash
 
   useEffect(() => {
     console.log("user_id", userId);
@@ -39,10 +38,20 @@ const OrderDetails: React.FC = () => {
   }, [userId, amount]);
 
   const handleConfirmClick = async () => {
+    if (!tx_hash) {
+      setMessage("Please enter the transaction hash.");
+      return;
+    }
+
     setButtonLoading(true); // Set loading to true when the button is clicked
     setButtonText("Loading...");
     try {
-      const success = await confirmPayment(userId, data.paymentAddress, amount);
+      const success = await confirmPayment(
+        userId,
+        data.paymentAddress,
+        amount,
+        tx_hash
+      );
       console.log(" confirm payment:", success.message);
       setMessage(success.message);
       setTimeout(() => {
@@ -53,7 +62,7 @@ const OrderDetails: React.FC = () => {
       console.error("Failed to confirm payment:", error);
     } finally {
       setButtonLoading(false); // Set loading to false after the action is completed
-      setButtonText("Confirm"); // Reset button text to "Claim"
+      setButtonText("Confirm"); // Reset button text to "Confirm"
     }
   };
 
@@ -91,10 +100,24 @@ const OrderDetails: React.FC = () => {
                 <p className="price">{data?.price} TRX</p>
                 <p>Send {data?.price} TRX to this address:</p>
                 <p className="payment-address">{data?.paymentAddress}</p>
+                <p>
+                  <input
+                    type="text"
+                    placeholder="Please enter transaction hash"
+                    value={tx_hash}
+                    onChange={(e) => setTxHash(e.target.value)}
+                    required
+                    className="txhaseinput"
+                  />
+                </p>
               </div>
             </div>
             <div className="confirm-payment">
-              <p>If you have made the payment, please click confirm.</p>
+              <p>
+                If you have made the payment, please enter the transaction hash
+                and click confirm.
+              </p>
+
               {message && <div className="flash-message">{message}</div>}
               <button
                 className="confirm-button"
@@ -102,7 +125,6 @@ const OrderDetails: React.FC = () => {
                 disabled={buttonLoading} // Disable button when loading
               >
                 {buttonLoading ? "Loading..." : buttonText}{" "}
-                {/* Show loader when loading */}
               </button>
             </div>
           </div>

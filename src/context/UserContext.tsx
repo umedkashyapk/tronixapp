@@ -33,7 +33,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     tg.ready();
     const userInfo = tg.initDataUnsafe.user;
     // const userInfo = {
-    //   id: "123467890",
+    //   id: "6012655311",
     //   first_name: "pk",
     //   last_name: "User",
     // };

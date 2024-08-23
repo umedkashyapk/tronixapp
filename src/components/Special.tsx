@@ -48,11 +48,11 @@ const Special = () => {
     padding: 20px;
     background-color: #CB731A;
     border-radius: 8px;
-    padding: 20px;
+    padding: 17px;
     display: flex;
     justify-content:center;
     align-items: center;
-    width: 75px;
+    width: 90px;
     height: 8px;
     margin: 0px 0px 0px 8px;
   }

@@ -67,7 +67,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
       setMessage(response.message);
       setTimeout(() => {
         setMessage(null);
-        window.location.reload(); // Reload the page after 2 seconds
+        // window.location.reload(); // Reload the page after 2 seconds
       }, 2000);
     } catch (error) {
       console.error("Failed to withdrow:", error);
@@ -103,7 +103,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
                 placeholder="100 TRX"
               />
               <p className="boost3">Minimum amount 100 TRX</p>
-              <p className="boost3">Maximum amount 1,000,000 TRX</p>
+              <p className="boost3">Maximum amount 10,000,000 TRX</p>
               <button type="submit" disabled={disable(inputValue)}>
                 Add
               </button>

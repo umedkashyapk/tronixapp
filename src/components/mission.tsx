@@ -92,9 +92,9 @@ const Mission = () => {
               <Link to="/special">
                 <th className="task-ref">Content</th>
               </Link>
-              <Link to="/fbpopup">
+              {/* <Link to="/fbpopup">
                 <th className="task-ref">Earn by FB</th>
-              </Link>
+              </Link> */}
             </tr>
           </thead>
         </div>

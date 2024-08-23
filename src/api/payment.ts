@@ -5,13 +5,15 @@ const API_BASE_URL = "https://tronox.me/api"; // Replace with your actual API ba
 export const confirmPayment = async (
   userId: number,
   address: string,
-  amount: number
+  amount: number,
+  tx_hash:string
 ) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/confirm-payment`, {
       user_id: userId,
       address: address,
       amount: amount,
+      tx_hash:tx_hash
     });
     console.log("confirm-payment", response.data);
     return response.data;

@@ -67,7 +67,9 @@ const Dashboard = ({ user }: DashboardProps) => {
   const handleImageClick = (isSpeedUp: boolean): void => {
     setAnimationDuration(isSpeedUp ? 500 : 1500);
   };
-
+  const preventDefaultAction = (event: any) => {
+    event.preventDefault();
+  };
   return (
     <>
       {loading && <Loader />}
@@ -91,6 +93,8 @@ const Dashboard = ({ user }: DashboardProps) => {
             onMouseUp={() => handleImageClick(false)}
             onTouchStart={() => handleImageClick(true)}
             onTouchEnd={() => handleImageClick(false)}
+            onContextMenu={preventDefaultAction} // Prevent context menu (right-click menu)
+            onDragStart={preventDefaultAction}
           />
           <p className="trx-amount">{claimableAmt.toFixed(8)} TRX</p>
           <p className="hash-rate">
